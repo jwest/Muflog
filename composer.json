@@ -1,0 +1,20 @@
+{
+    "name": "jwest/muflog",
+    "description": "",
+    "require": {
+        "slim/slim": "2.2.0",
+        "knplabs/gaufrette": "0.2.*@dev"
+    },
+    "authors": [
+        {
+            "name": "jwest",
+            "email": "jwest@jwest.pl"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Muflog": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
