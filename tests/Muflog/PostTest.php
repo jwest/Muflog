@@ -29,8 +29,16 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('test post', $this->obj->title());
 	}
 
-	public function testDate() {
-		$this->assertEquals(new DateTime('2012-01-18'), $this->obj->date());
+	public function testGetDate() {
+		$this->assertEquals(new DateTime('2013-01-18'), $this->obj->date());
+	}
+
+	public function testGetTags() {
+		$this->assertCount(5, $this->obj->tags());
+	}
+
+	public function testGetContent() {
+		$this->assertContains('<h1>Test post', $this->obj->content());
 	}
 
 }
