@@ -1,5 +1,5 @@
 title = test post
-date = 18.01.2013
+date = 2013-01-18
 tags = test,post,php,unit,phpunit
 
 # Test post

@@ -1,10 +1,14 @@
 <?php
 
 use Muflog\Post;
+use Gaufrette\Filesystem;
+use Gaufrette\Adapter\Local as LocalAdapter;
 
 class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 
 	public function setUp() {
+		$adapter = new LocalAdapter('tests/fixtures/repository');
+		Post::driver(new Filesystem($adapter));
 		$this->obj = new Post('2012/12/test_post.md');
 	}
 
@@ -13,12 +17,20 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testCreateInstanceInvalidFile() {
-		$this->setExpectedException('\InvalidArgumentException', 'file \'2012/12/testInvalidFile.md\' not loaded');
+		$this->setExpectedException('\InvalidArgumentException', 'file \'2012/12/testInvalidFile.md\' loaded error');
 		$obj = new Post('2012/12/testInvalidFile.md');
 	}
 
-	// public function testGetTitle() {
-	// 	$this->
-	// }
+	public function testGetFileName() {
+		$this->assertEquals('2012/12/test_post.md', $this->obj->fileName());
+	}
+
+	public function testGetTitle() {
+		$this->assertEquals('test post', $this->obj->title());
+	}
+
+	public function testDate() {
+		$this->assertEquals(new DateTime('2012-01-18'), $this->obj->date());
+	}
 
 }

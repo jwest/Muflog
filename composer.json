@@ -3,7 +3,8 @@
     "description": "",
     "require": {
         "slim/slim": "2.2.0",
-        "knplabs/gaufrette": "0.2.*@dev"
+        "knplabs/gaufrette": "0.2.*@dev",
+        "dflydev/markdown": "1.0.*@dev"
     },
     "authors": [
         {
