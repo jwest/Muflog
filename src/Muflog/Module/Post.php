@@ -12,7 +12,7 @@ class Post extends \Slim\Middleware {
     }
 
     public function get($year, $mounth, $title) {
-		        
+		
     }
 
 }

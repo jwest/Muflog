@@ -35,7 +35,7 @@ class Repository {
 	}
 
 	public function post($name) {
-		return new Post($this->postFile($name));
+		return new Post($this->postFile($name), $this->fileSystem);
 	}
 
 	protected function postFile($name) {

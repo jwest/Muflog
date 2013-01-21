@@ -34,6 +34,11 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(new DateTime('2013-01-18'), $this->obj->date());
 	}
 
+	public function testGetDateFromFileModifyDate() {
+		$this->obj = $this->repo->post('test_post_4_without_date.md');
+		$this->assertEquals(new DateTime('@'.filemtime('tests/fixtures/repository/test_post_4_without_date.md')), $this->obj->date());
+	}
+
 	public function testGetTags() {
 		$this->assertCount(5, $this->obj->tags());
 	}
