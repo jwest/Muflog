@@ -12,7 +12,7 @@ class Muflog_Repository_Test extends PHPUnit_Framework_TestCase {
 
 	public function testGetPosts() {
 		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));	
-		$this->assertCount(2, $repo->posts());
+		$this->assertCount(3, $repo->posts());
 	}
 
 	public function testGetPostsOrderCheck() {
@@ -20,4 +20,15 @@ class Muflog_Repository_Test extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('test_post_2.md', $repo->posts()[0]->fileName());	
 	}
 
+	public function testGetPostsByPageFirstPage() {
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
+		$repo->itemsOnPage(2);
+		$this->assertCount(2, $repo->page(1));
+	}
+
+	public function testGetPostsByPageSecoundPage() {
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
+		$repo->itemsOnPage(2);
+		$this->assertCount(1, $repo->page(2));
+	}
 }
