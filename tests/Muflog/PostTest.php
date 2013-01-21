@@ -1,6 +1,7 @@
 <?php
 
 use Muflog\Post;
+use Muflog\Repository;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
@@ -8,8 +9,8 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 
 	public function setUp() {
 		$adapter = new LocalAdapter('tests/fixtures/repository');
-		Post::driver(new Filesystem($adapter));
-		$this->obj = new Post('2012/12/test_post.md');
+		$this->repo = new Repository($adapter);
+		$this->obj = $this->repo->post('test_post.md');
 	}
 
 	public function testCreateInstance() {
@@ -17,12 +18,12 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testCreateInstanceInvalidFile() {
-		$this->setExpectedException('\InvalidArgumentException', 'file \'2012/12/testInvalidFile.md\' loaded error');
-		$obj = new Post('2012/12/testInvalidFile.md');
+		$this->setExpectedException('\InvalidArgumentException', 'file \'testInvalidFile.md\' loaded error');
+		$this->repo->post('testInvalidFile.md');
 	}
 
 	public function testGetFileName() {
-		$this->assertEquals('2012/12/test_post.md', $this->obj->fileName());
+		$this->assertEquals('test_post.md', $this->obj->fileName());
 	}
 
 	public function testGetTitle() {

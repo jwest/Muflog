@@ -2,24 +2,25 @@
 
 namespace Muflog;
 
+use Gaufrette\File;
 use Gaufrette\Filesystem;
 use Muflog\Parser\Markdown;
 
 class Post {
 
-	private $name;
+	private $fileName;
 	private $title;
 	private $date;
 	private $tags;
 	private $content;
 
-	public function __construct($name) {
-		$fileContent = $this->load($name);
-		$this->name = $name;
+	public function __construct(File $file) {
+		$this->fileName = $file->getKey();
+		$this->parse($file->getContent());
 	}
 
 	public function fileName() {
-		return $this->name;
+		return $this->fileName;
 	}
 
 	public function title() {
@@ -38,13 +39,6 @@ class Post {
 		return $this->content;
 	}
 
-	protected function load($name) {
-		if (!self::driver()->has($name))
-			throw new \InvalidArgumentException('file \''.$name.'\' loaded error');
-		$content = self::driver()->read($name);
-		$this->parse($content);
-	}
-
 	private function parse($content) {
 		$md = new Markdown($content);
 		$meta = $md->meta();
@@ -54,12 +48,4 @@ class Post {
 		$this->content = $md->content();
 	}
 
-	protected static $driver = null;
-
-	public static function driver(Filesystem $driver = null) {
-		if ($driver !== null)
-			self::$driver = $driver;
-		return self::$driver;
-	}
-	
 }
