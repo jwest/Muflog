@@ -14,9 +14,9 @@ class Post {
 	private $tags;
 	private $content;
 
-	public function __construct(File $file, Filesystem $fileSystem) {
+	public function __construct(File $file) {
 		$this->fileName = $file->getKey();
-		$this->date = new \DateTime('@'.$fileSystem->mtime($this->fileName));		
+		$this->date = new \DateTime('@'.$file->getMtime());
 		$this->parse($file->getContent());
 	}
 
@@ -42,13 +42,16 @@ class Post {
 
 	private function parse($content) {
 		$md = new Markdown($content);
-		$meta = $md->meta();
+		$this->parseMeta($md->meta());
+		$this->content = $md->content();
+	}
+
+	private function parseMeta(array $meta) {
 		if (isset($meta['title']))
 			$this->title = $meta['title'];
 		if (isset($meta['date']))
 			$this->date = new \DateTime($meta['date']);
-		$this->tags = explode(',', $meta['tags']);
-		$this->content = $md->content();
+		$this->tags = explode(',', $meta['tags']);		
 	}
 
 }

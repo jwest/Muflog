@@ -10,7 +10,7 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		$adapter = new LocalAdapter('tests/fixtures/repository');
 		$this->repo = new Repository($adapter);
-		$this->obj = $this->repo->post('test_post.md');
+		$this->obj = $this->repo->post('test_post');
 	}
 
 	public function testCreateInstance() {
@@ -19,7 +19,7 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 
 	public function testCreateInstanceInvalidFile() {
 		$this->setExpectedException('\InvalidArgumentException', 'file \'testInvalidFile.md\' loaded error');
-		$this->repo->post('testInvalidFile.md');
+		$this->repo->post('testInvalidFile');
 	}
 
 	public function testGetFileName() {
@@ -35,7 +35,7 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetDateFromFileModifyDate() {
-		$this->obj = $this->repo->post('test_post_4_without_date.md');
+		$this->obj = $this->repo->post('test_post_4_without_date');
 		$this->assertEquals(new DateTime('@'.filemtime('tests/fixtures/repository/test_post_4_without_date.md')), $this->obj->date());
 	}
 

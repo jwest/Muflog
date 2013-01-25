@@ -15,9 +15,14 @@ class Muflog_Repository_Test extends PHPUnit_Framework_TestCase {
 		$this->assertCount(4, $repo->posts());
 	}
 
+	public function testGetPost() {
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));		
+		$this->assertInstanceOf('\Muflog\Post', $repo->post('test_post_2'));
+	}
+
 	public function testGetPostsOrderCheck() {
-		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));	
-		$this->assertEquals('test_post_2.md', $repo->posts()[0]->fileName());	
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
+		$this->assertEquals('test_post_3.md', $repo->posts()[0]->fileName());	
 	}
 
 	public function testGetPostsByPageFirstPage() {
@@ -36,5 +41,11 @@ class Muflog_Repository_Test extends PHPUnit_Framework_TestCase {
 		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
 		$repo->itemsOnPage(2);
 		$this->assertEmpty($repo->page(53));
+	}
+
+	public function testDateNotExistsInPostFile() {
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
+		$post = $repo->post('test_post_4_without_date');
+		$this->assertEquals(filemtime('tests/fixtures/repository/test_post_4_without_date.md'), $post->date()->getTimestamp());
 	}
 }

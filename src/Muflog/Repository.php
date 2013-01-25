@@ -8,7 +8,9 @@ use Gaufrette\Adapter\Local as LocalAdapter;
 
 class Repository {
 
-	protected $itemsOnPage;
+	const FILE_TYPE = '.md';
+
+	protected $itemsOnPage = 3;
 
 	private $fileSystem;
 	private $posts = array();
@@ -30,15 +32,19 @@ class Repository {
 	}
 
 	public function page($page) {
+		if ($page < 1)
+			return array();
 		$offset = ($page-1) * $this->itemsOnPage;
 		return array_slice($this->posts, $offset, $this->itemsOnPage);
 	}
 
-	public function post($name) {
-		return new Post($this->postFile($name), $this->fileSystem);
+	public function post($name, $withoutType = false) {
+		if (!$withoutType)
+			$name = $name . self::FILE_TYPE;
+		return new Post($this->postFile($name));
 	}
 
-	protected function postFile($name) {
+	protected function postFile($name) {		
 		if (!$this->fileSystem->has($name))
 			throw new \InvalidArgumentException('file \''.$name.'\' loaded error');
 		return $this->fileSystem->get($name);
@@ -47,7 +53,7 @@ class Repository {
 	private function loadPosts() {
 		$posts = $this->fileSystem->keys();
 		return array_map(function($post) {
-			return $this->post($post);
+			return $this->post($post, true);
 		}, $posts);
 	}
 
@@ -56,7 +62,7 @@ class Repository {
 			if ($a->date()->getTimestamp() == $b->date()->getTimestamp()) {
 		        return 0;
 		    }
-		    return ($a->date()->getTimestamp() < $b->date()->getTimestamp()) ? -1 : 1;			
+		    return ($a->date()->getTimestamp() > $b->date()->getTimestamp()) ? -1 : 1;			
 		});
 		return $posts;
 	}

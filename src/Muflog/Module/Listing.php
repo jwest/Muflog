@@ -4,7 +4,7 @@ namespace Muflog\Module;
 
 use Muflog\Repository;
 
-class Post extends \Slim\Middleware {
+class Listing extends \Slim\Middleware {
 
 	private $repository;
 
@@ -13,17 +13,15 @@ class Post extends \Slim\Middleware {
 	}
 
     public function call() {
-        $this->app->get('/post/:name', array($this, 'get'))->name('post');
+        $this->app->get('/(:page)', array($this, 'get'))->name('post');
         $this->next->call();
     }
 
-    public function get($name) {
-    	try {
-			$post = $this->repository->post($name);
-		} catch (\InvalidArgumentException $e) {
+    public function get($page = 1) {
+    	$posts = $this->repository->page($page);
+		if (empty($posts))
 			$this->app->notFound();
-		}
-		var_dump($post);
+		var_dump($posts);
     }
 
 }
