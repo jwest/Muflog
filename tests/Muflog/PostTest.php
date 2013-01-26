@@ -26,6 +26,10 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('test_post.md', $this->obj->fileName());
 	}
 
+	public function testGetNameWithoutType() {
+		$this->assertEquals('test_post', $this->obj->name());
+	}
+
 	public function testGetTitle() {
 		$this->assertEquals('test post', $this->obj->title());
 	}

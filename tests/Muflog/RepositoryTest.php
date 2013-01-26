@@ -25,22 +25,10 @@ class Muflog_Repository_Test extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('test_post_3.md', $repo->posts()[0]->fileName());	
 	}
 
-	public function testGetPostsByPageFirstPage() {
+	public function testGetPaginationInstance() {
 		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
 		$repo->itemsOnPage(2);
-		$this->assertCount(2, $repo->page(1));
-	}
-
-	public function testGetPostsByPageOtherPage() {
-		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
-		$repo->itemsOnPage(3);
-		$this->assertCount(1, $repo->page(2));
-	}
-
-	public function testGetPostsByPageNonExistsPage() {
-		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
-		$repo->itemsOnPage(2);
-		$this->assertEmpty($repo->page(53));
+		$this->assertInstanceOf('\Muflog\Pagination', $repo->page(1));
 	}
 
 	public function testDateNotExistsInPostFile() {

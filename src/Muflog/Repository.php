@@ -3,6 +3,7 @@
 namespace Muflog;
 
 use Muflog\Post;
+use Muflog\Pagination;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
@@ -24,18 +25,15 @@ class Repository {
 	public function itemsOnPage($items = null) {
 		if ($items !== null)
 			$this->itemsOnPage = $items;
-		return $items;
+		return $this->itemsOnPage;
 	}
 
 	public function posts() {
 		return $this->posts;
 	}
 
-	public function page($page) {
-		if ($page < 1)
-			return array();
-		$offset = ($page-1) * $this->itemsOnPage;
-		return array_slice($this->posts, $offset, $this->itemsOnPage);
+	public function page($page) {		
+		return new Pagination($this, $page);
 	}
 
 	public function post($name, $withoutType = false) {
