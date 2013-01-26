@@ -18,10 +18,11 @@ class Listing extends \Slim\Middleware {
     }
 
     public function get($page = 1) {
-    	$posts = $this->repository->page($page)->posts();
+    	$pagination = $this->repository->page($page);
+    	$posts = $pagination->posts();
 		if (empty($posts))
 			$this->app->notFound();
-		$this->app->render('layout.php', array('posts' => $posts));
+		$this->app->render('layout.php', array('posts' => $posts, 'pagination' => $pagination));
     }
 
 }

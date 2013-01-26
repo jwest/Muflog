@@ -27,14 +27,14 @@ class Pagination {
 	}
 
 	public function next() {
-		if ($this->checkPosts($this->page + 1))
-			return $this->page+1;
+		if ($this->checkPosts($this->page - 1))
+			return $this->page - 1;
 		return false;
 	}
 
 	public function prev() {		
-		if ($this->checkPosts($this->page - 1))
-			return $this->page-1;
+		if ($this->checkPosts($this->page + 1))
+			return $this->page + 1;
 		return false;	
 	}
 

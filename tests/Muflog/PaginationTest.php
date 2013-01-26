@@ -32,22 +32,22 @@ class Muflog_Pagination_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetNextPage() {
-		$obj = new Pagination($this->repo, 1);
-		$this->assertEquals(2, $obj->next());
+		$obj = new Pagination($this->repo, 2);
+		$this->assertEquals(1, $obj->next());
 	}
 
 	public function testGetNextPageNonExists() {
-		$obj = new Pagination($this->repo, 2);
+		$obj = new Pagination($this->repo, 1);
 		$this->assertEquals(false, $obj->next());
 	}
 
 	public function testGetPrevPage() {
-		$obj = new Pagination($this->repo, 2);
-		$this->assertEquals(1, $obj->prev());
+		$obj = new Pagination($this->repo, 1);
+		$this->assertEquals(2, $obj->prev());
 	}
 
 	public function testGetPrevPageNonExists() {
-		$obj = new Pagination($this->repo, 1);
+		$obj = new Pagination($this->repo, 2);
 		$this->assertEquals(false, $obj->prev());
 	}
 

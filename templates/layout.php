@@ -83,5 +83,17 @@
 		<?php endforeach ?>		
 	</section>
 
+	<?php if (isset($pagination)): ?>
+		<div>
+			<?php if ($pagination->next()): ?>
+				<a href="/muflog/index.php/<?php echo $pagination->next(); ?>">Next</a>
+			<?php endif ?>
+
+			<?php if ($pagination->prev()): ?>
+				<a href="/muflog/index.php/<?php echo $pagination->prev(); ?>">Prev</a>
+			<?php endif ?>			
+		</div>
+	<?php endif ?>	
+
 </body>
 </html>
