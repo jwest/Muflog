@@ -24,6 +24,12 @@ class Post {
 		return $this->fileName;
 	}
 
+	public function name() {
+		$part = explode('.', $this->fileName);
+		unset($part[count($part)-1]);
+		return implode('.', $part);
+	}
+
 	public function title() {
 		return $this->title;
 	}

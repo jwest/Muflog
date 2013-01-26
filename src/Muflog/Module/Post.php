@@ -23,7 +23,7 @@ class Post extends \Slim\Middleware {
 		} catch (\InvalidArgumentException $e) {
 			$this->app->notFound();
 		}
-		var_dump($post);
+		$this->app->render('layout.php', array('posts' => array($post)));
     }
 
 }

@@ -21,7 +21,7 @@ class Listing extends \Slim\Middleware {
     	$posts = $this->repository->page($page);
 		if (empty($posts))
 			$this->app->notFound();
-		var_dump($posts);
+		$this->app->render('layout.php', array('posts' => $posts));
     }
 
 }

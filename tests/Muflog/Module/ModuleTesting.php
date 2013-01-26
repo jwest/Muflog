@@ -41,11 +41,11 @@ abstract class Muflog_Module_ModuleTesting extends PHPUnit_Framework_TestCase {
     }
 
     public function renderTemplateName() {
-        return null;
+        return 'layout.php';
     }
 
     public function renderParams() {
-        return $this->arrayHasKey('page');
+        return $this->arrayHasKey('posts');
     }
 
     private function slimMock($method, $route, $input = '', array $params = array()) {
