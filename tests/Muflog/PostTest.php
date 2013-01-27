@@ -44,7 +44,11 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetTags() {
-		$this->assertCount(5, $this->obj->tags());
+		$this->assertCount(6, $this->obj->tags());
+	}
+
+	public function testHasTag() {
+		$this->assertTrue($this->obj->hasTag('testTag'));
 	}
 
 	public function testGetContent() {

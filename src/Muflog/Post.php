@@ -42,6 +42,10 @@ class Post {
 		return $this->tags;
 	}
 
+	public function hasTag($tag) {
+		return in_array($tag, $this->tags);
+	}
+
 	public function content() {
 		return $this->content;
 	}

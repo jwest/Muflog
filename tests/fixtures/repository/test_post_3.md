@@ -1,6 +1,6 @@
 title = test post 3
 date = 2013-03-02
-tags = test,post,php,unit,phpunit
+tags = test,post,php,unit,phpunit,testTag
 
 # Test post 3
 

@@ -32,6 +32,17 @@ class Muflog_Repository_Test extends PHPUnit_Framework_TestCase {
 		$this->assertContains('test_post', $posts[0]);
 	}
 
+	public function testGetPostsByTags() {
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));	
+		$this->assertCount(2, $repo->postsByTag('testTag'));
+	}
+
+	public function testGetPostsByTagsCheckInstanceOf() {
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));	
+		$posts = $repo->postsByTag('testTag');
+		$this->assertInstanceOf('\Muflog\Post', $posts[0]);
+	}
+
 	public function testGetPost() {
 		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));		
 		$this->assertInstanceOf('\Muflog\Post', $repo->post('test_post_2'));
@@ -44,8 +55,20 @@ class Muflog_Repository_Test extends PHPUnit_Framework_TestCase {
 
 	public function testGetPaginationInstance() {
 		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
-		$repo->itemsOnPage(2);
+		\Muflog\Pagination::itemsOnPage(2);
 		$this->assertInstanceOf('\Muflog\Pagination', $repo->page(1));
+	}
+
+	public function testGetByTagPaginationInstance() {
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
+		\Muflog\Pagination::itemsOnPage(2);
+		$posts = $repo->pageByTag(1, 'testTag')->posts();
+		$this->assertCount(2, $posts);
+	}
+
+	public function testGetAllTags() {
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
+		$this->assertCount(8, $repo->tags());
 	}
 
 	public function testDateNotExistsInPostFile() {

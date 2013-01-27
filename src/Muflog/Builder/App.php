@@ -11,6 +11,7 @@ class App extends \Slim\Slim {
 	private $output;
 	private $repository;
 	private $middlewares = array();
+
 	private $callbackStart;
 	private $callbackEnd;
 
@@ -19,53 +20,52 @@ class App extends \Slim\Slim {
 		$this->repository = $repository;
 	}
 
-	public function addModule(Middleware $middleware, array $dataForUrl = null) {
+	public function addModule(Middleware $middleware, array $dataForRoute = array()) {
 		$this->middlewares[] = array(			
-			$middleware, $middleware::ROUTE_SCHEMA, $dataForUrl
+			$middleware, $middleware::ROUTE_SCHEMA, $dataForRoute, $middleware::PAGE_ITERATE
 		);
 	}
 
-	public function build($indexFile, $callbackStart = null, $callbackEnd = null) {
+	public function build($callbackStart = null, $callbackEnd = null) {
 		$this->callbackStart = $callbackStart;
 		$this->callbackEnd = $callbackEnd;
+
 		foreach ($this->middlewares as $middleware) {
-			list($middleware, $routeRaw, $dataForUrl) = $middleware;
-			if ($dataForUrl === null)
-				$this->iterateByNumbers($middleware, $routeRaw);
-			else
-				$this->iterateByItems($middleware, $routeRaw, $dataForUrl);
+			list($middleware, $routeRaw, $dataForRoute, $pageIterator) = $middleware;			
+			$this->iterateByItems($middleware, $routeRaw, $dataForRoute, $pageIterator);
 		}
-		$this->generateIndex($indexFile);
+
+		$this->generateIndex();
 	}
 
-	private function generateIndex($from) {
-		$this->output->write('index.html', $this->output->read($from), true);
-	}	
-
-	private function iterateByItems(Middleware $middleware, $routeRaw, array $dataForUrl) {
-		foreach ($dataForUrl as $data)
-			$this->prepareRun($middleware, $routeRaw, $data);
+	private function iterateByItems(Middleware $middleware, $routeRaw, $dataForRoute, $pageIterator) {
+		if (empty($dataForRoute)) {
+			$this->prepareRun($middleware, $routeRaw, null, $pageIterator);
+			return;
+		}
+		foreach ($dataForRoute as $data)
+			$this->prepareRun($middleware, $routeRaw, $data, $pageIterator);
 	}
 
-	private function iterateByNumbers(Middleware $middleware, $routeRaw) {
-		for ($i=1; true; ++$i)
-			if (!$this->prepareRun($middleware, $routeRaw, $i))
-				break;
+	private function prepareRun(Middleware $middleware, $routeRaw, $data, $pageIterator) {
+		for ($i=1; true; $i++) {
+			if ($this->callbackStart !== null)
+				call_user_func($this->callbackStart);
+
+			$route = $this->prepareRoute($routeRaw, $data, $i);
+			$this->prepareEnv($middleware, $route);				
+			if (!$this->runRoute($route) || !$pageIterator)
+				return;
+
+			if ($this->callbackEnd !== null)
+				call_user_func($this->callbackEnd, $route);
+		}		
 	}
 
-	private function prepareRun(Middleware $middleware, $routeRaw, $data) {
-		if ($this->callbackStart !== null)
-			call_user_func($this->callbackStart);
-		$route = $this->prepareRoute($routeRaw, $data);				
-		$this->prepareEnv($middleware, $route);				
-		$result = $this->runRoute($route);
-		if ($this->callbackEnd !== null)
-			call_user_func($this->callbackEnd, $route);
-		return $result;
-	}
-
-	private function prepareRoute($route, $data) {
-		return sprintf($route, $data);
+	private function prepareRoute($route, $data, $page) {
+		if ($data === null)
+			return sprintf($route, $page);
+		return sprintf($route, $data, $page);
 	}
 
 	private function prepareEnv(Middleware $middleware, $route) {		
@@ -83,6 +83,16 @@ class App extends \Slim\Slim {
 		$this->output->write(trim($route, '/'), $content, true);
 		return true;
 	}
+
+	private function generateIndex() {
+		foreach ($this->output->keys() as $key) {
+			if (substr($key, -strlen('/1')) == '/1')
+				$this->output->write(dirname($key).'index.html', $this->output->read($key), true);
+		}
+		try {
+			$this->output->write('index.html', $this->output->read(1), true);
+		} catch (\Gaufrette\Exception\FileNotFound $e) {}
+	}	
 
 	public function middlewares() {
 		return $this->middlewares;

@@ -4,9 +4,11 @@ require 'vendor/autoload.php';
 
 use Muflog\Builder\App;
 use Muflog\Repository;
+use Muflog\Pagination;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
+Pagination::itemsOnPage(3);
 $repository = new Repository(new LocalAdapter('tests/fixtures/repository'));
 $output = new Filesystem(new LocalAdapter('web'));
 
@@ -24,8 +26,9 @@ $endCb = function($route) use ($time) {
 
 $app = new App($repository, $output);
 $app->addModule(new \Muflog\Module\Listing($repository));
+$app->addModule(new \Muflog\Module\ListingByTag($repository), array_keys($repository->tags()));
 $app->addModule(new \Muflog\Module\Post($repository), $repository->keys());
-$app->build('1', $startCb, $endCb);
+$app->build($startCb, $endCb);
 
 $time->stop('total');
 $time->report();

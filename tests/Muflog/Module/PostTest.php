@@ -18,11 +18,6 @@ class Muflog_Module_PostTest extends Muflog_Module_ModuleTesting {
         $this->checkStatusCode('GET', '/post/test_post_non_exist', 404);
     }
 
-    public function testGetSchema() {
-        $obj = $this->getObj();
-        $obj::ROUTE_SCHEMA;
-    }
-
     public function getObj() {
         return new Post(new Repository(new LocalAdapter('tests/fixtures/repository')));
     }

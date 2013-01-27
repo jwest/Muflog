@@ -9,6 +9,7 @@ $repository = new Repository($adapter);
 
 $app = new \Slim\Slim();
 $app->add(new \Muflog\Module\Listing($repository));
+$app->add(new \Muflog\Module\ListingByTag($repository));
 $app->add(new \Muflog\Module\Post($repository));
 
 $app->run();

@@ -11,8 +11,6 @@ class Repository {
 
 	const FILE_TYPE = '.md';
 
-	protected $itemsOnPage = 3;
-
 	private $fileSystem;
 	private $posts = array();
 
@@ -22,24 +20,35 @@ class Repository {
 		$this->posts = $this->sortPosts($posts);
 	}
 
-	public function itemsOnPage($items = null) {
-		if ($items !== null)
-			$this->itemsOnPage = $items;
-		return $this->itemsOnPage;
-	}
-
 	public function posts() {
 		return $this->posts;
 	}
 
 	public function page($page) {		
-		return new Pagination($this, $page);
+		return new Pagination($this->posts(), $page);
 	}
 
 	public function post($name, $withoutType = false) {
 		if (!$withoutType)
 			$name = $name . self::FILE_TYPE;
 		return new Post($this->postFile($name));
+	}
+
+	public function pageByTag($page, $tag) {
+		return new Pagination($this->postsByTag($tag), $page);
+	}
+
+	public function postsByTag($tag) {
+		return array_filter($this->posts, function($post) use ($tag) {
+			return $post->hasTag($tag);
+		});
+	}
+
+	public function tags() {
+		$tags = array();
+		foreach ($this->posts() as $post)
+			$tags = array_merge($tags, $post->tags());
+		return array_count_values($tags);
 	}
 
 	public function keys() {

@@ -27,7 +27,7 @@ class Muflog_Parser_Markdown_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetMetaTags() {
-		$this->assertEquals('test,post,php,unit,phpunit', $this->obj->meta()['tags']);
+		$this->assertEquals('test,post,testTag,php,unit,phpunit', $this->obj->meta()['tags']);
 	}
 
 }

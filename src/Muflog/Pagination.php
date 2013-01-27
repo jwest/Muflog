@@ -2,15 +2,13 @@
 
 namespace Muflog;
 
-use Muflog\Repository;
-
 class Pagination {
 
-	private $repository;
+	private $posts;
 	private $page;
 
-	public function __construct(Repository $repository, $page) {
-		$this->repository = $repository;
+	public function __construct(array $posts = array(), $page) {
+		$this->posts = $posts;
 		$this->page = $page;
 	}
 
@@ -23,7 +21,7 @@ class Pagination {
 	}
 
 	public function max() {
-		return floor(count($this->repository->posts()) / $this->repository->itemsOnPage());
+		return floor(count($this->posts) / self::itemsOnPage());
 	}
 
 	public function next() {
@@ -39,7 +37,7 @@ class Pagination {
 	}
 
 	private function offset($page) {
-		return ($page - 1) * $this->repository->itemsOnPage();
+		return ($page - 1) * self::itemsOnPage();
 	}
 
 	private function checkPosts($page) {
@@ -50,6 +48,14 @@ class Pagination {
 		if ($page < 1) 
 			return array();
 		$offset = $this->offset($page);
-		return array_slice($this->repository->posts(), $offset, $this->repository->itemsOnPage());
+		return array_slice($this->posts, $offset, self::itemsOnPage());
+	}
+
+	private static $itemsOnPage = 3;
+
+	public static function itemsOnPage($itemsCount = null) {
+		if ($itemsCount !== null)
+			self::$itemsOnPage = $itemsCount;
+		return self::$itemsOnPage;
 	}
 }

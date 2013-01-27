@@ -7,6 +7,7 @@ use Muflog\Repository;
 class Post extends \Slim\Middleware {
 
 	const ROUTE_SCHEMA = '/post/%s';
+    const PAGE_ITERATE = false;
 
 	private $repository;
 

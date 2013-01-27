@@ -4,9 +4,9 @@ namespace Muflog\Module;
 
 use Muflog\Repository;
 
-class Listing extends \Slim\Middleware {
+class ListingByTag extends \Slim\Middleware {
 
-    const ROUTE_SCHEMA = '/%d';
+    const ROUTE_SCHEMA = '/tag/%s/%d';
     const PAGE_ITERATE = true;
 
 	private $repository;
@@ -16,12 +16,12 @@ class Listing extends \Slim\Middleware {
 	}
 
     public function call() {
-        $this->app->get('/(:page)', array($this, 'get'))->name('post');
+        $this->app->get('/tag/:tag(/:page)', array($this, 'get'))->name('tag');
         $this->next->call();
     }
 
-    public function get($page = 1) {
-    	$pagination = $this->repository->page($page);
+    public function get($tag, $page = 1) {
+    	$pagination = $this->repository->pageByTag($page, $tag);
     	$posts = $pagination->posts();
 		if (empty($posts))
 			$this->app->notFound();

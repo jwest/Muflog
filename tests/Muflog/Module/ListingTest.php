@@ -22,11 +22,6 @@ class Muflog_Module_ListingTest extends Muflog_Module_ModuleTesting {
         $this->checkStatusCode('GET', '/0', 404);
     }
 
-    public function testGetSchema() {
-        $obj = $this->getObj();
-        $obj::ROUTE_SCHEMA;
-    }
-
     public function getObj() {
         return new Listing(new Repository(new LocalAdapter('tests/fixtures/repository')));
     }
