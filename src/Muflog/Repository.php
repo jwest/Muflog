@@ -42,6 +42,13 @@ class Repository {
 		return new Post($this->postFile($name));
 	}
 
+	public function keys() {
+		$posts = $this->fileSystem->keys();
+		return array_map(function($post) {
+			return substr($post, 0, strlen(self::FILE_TYPE) * -1);
+		}, $posts);
+	}
+
 	protected function postFile($name) {		
 		if (!$this->fileSystem->has($name))
 			throw new \InvalidArgumentException('file \''.$name.'\' loaded error');

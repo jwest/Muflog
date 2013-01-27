@@ -2,40 +2,30 @@
 <?php
 require 'vendor/autoload.php';
 
-use Slim\View;
-use Muflog\Builder\RunApp;
+use Muflog\Builder\App;
 use Muflog\Repository;
-use Gaufrette\File;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
 $repository = new Repository(new LocalAdapter('tests/fixtures/repository'));
 $output = new Filesystem(new LocalAdapter('web'));
 
-$clock = new Timer();
-$clock->start('total');
+$time = new Timer();
+$time->start('total');
 
-$app = new RunApp($repository);
-$app->add(new \Muflog\Module\Listing($repository));
-$app->add(new \Muflog\Module\Post($repository));
+$startCb = function() use ($time) {
+	$time->startAvg('page');
+};
 
-for ($i=1; true; ++$i) {
-	$clock->startAvg('listing');
-	if ($app->run('/'.$i) === 404) break;
-	$output->write($i, $app->content(), true);
-	Logger::log('Listing `'.$i.'` converted');
-	$clock->stopAvg('listing');
-}
+$endCb = function($route) use ($time) {
+	Logger::log('Page `'.$route.'` converted');
+ 	$time->stopAvg('page');
+};
 
-foreach ($repository->posts() as $post) {
-	$clock->startAvg('post');
-	$app->run('/post/'.$post->name());
-	$output->write('/post/'.$post->name(), $app->content(), true);
-	Logger::log('Post `'.$post->name().'` converted');
-	$clock->stopAvg('post');
-}
+$app = new App($repository, $output);
+$app->addModule(new \Muflog\Module\Listing($repository));
+$app->addModule(new \Muflog\Module\Post($repository), $repository->keys());
+$app->build('1', $startCb, $endCb);
 
-$output->write('index.html', $output->read('1'), true);
-
-$clock->stop('total');
-$clock->report();
+$time->stop('total');
+$time->report();

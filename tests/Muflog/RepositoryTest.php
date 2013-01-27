@@ -15,6 +15,23 @@ class Muflog_Repository_Test extends PHPUnit_Framework_TestCase {
 		$this->assertCount(4, $repo->posts());
 	}
 
+	public function testGetPostsCheckInstanceOf() {
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));	
+		$posts = $repo->posts();
+		$this->assertInstanceOf('\Muflog\Post', $posts[0]);
+	}
+
+	public function testGetKeys() {
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));	
+		$this->assertCount(4, $repo->keys());
+	}
+
+	public function testGetKeysCheckIsString() {
+		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));	
+		$posts = $repo->keys();
+		$this->assertContains('test_post', $posts[0]);
+	}
+
 	public function testGetPost() {
 		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));		
 		$this->assertInstanceOf('\Muflog\Post', $repo->post('test_post_2'));

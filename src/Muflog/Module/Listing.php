@@ -6,6 +6,8 @@ use Muflog\Repository;
 
 class Listing extends \Slim\Middleware {
 
+    const ROUTE_SCHEMA = '/%d';
+
 	private $repository;
 
 	public function __construct(Repository $repository) {

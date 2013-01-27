@@ -6,6 +6,8 @@ use Muflog\Repository;
 
 class Post extends \Slim\Middleware {
 
+	const ROUTE_SCHEMA = '/post/%s';
+
 	private $repository;
 
 	public function __construct(Repository $repository) {
