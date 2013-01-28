@@ -66,8 +66,9 @@ class Repository {
 
 	private function loadPosts() {
 		$posts = $this->fileSystem->keys();
-		return array_map(function($post) {
-			return $this->post($post, true);
+		$repository = $this;
+		return array_map(function($post) use ($repository) {
+			return $repository->post($post, true);
 		}, $posts);
 	}
 
