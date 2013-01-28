@@ -19,7 +19,7 @@ class Muflog_Module_PostTest extends Muflog_Module_ModuleTesting {
     }
 
     public function getObj() {
-        return new Post(new Repository(new LocalAdapter('tests/fixtures/repository')));
+        return new Post(Repository::factory(new LocalAdapter('tests/fixtures/repository'))->post());
     }
 
 }

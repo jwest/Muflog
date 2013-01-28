@@ -23,7 +23,7 @@ class Muflog_Module_ListingTest extends Muflog_Module_ModuleTesting {
     }
 
     public function getObj() {
-        return new Listing(new Repository(new LocalAdapter('tests/fixtures/repository')));
+        return new Listing(Repository::factory(new LocalAdapter('tests/fixtures/repository'))->post());
     }
 
 }

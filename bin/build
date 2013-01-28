@@ -4,11 +4,10 @@ require 'vendor/autoload.php';
 
 use Muflog\Builder\App;
 use Muflog\Repository;
-use Muflog\Pagination;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
-Pagination::itemsOnPage(3);
+\Muflog\Pagination::itemsOnPage(3);
 $repository = new Repository(new LocalAdapter('tests/fixtures/repository'));
 $output = new Filesystem(new LocalAdapter('web'));
 

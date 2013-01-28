@@ -9,7 +9,7 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 
 	public function setUp() {
 		$adapter = new LocalAdapter('tests/fixtures/repository');
-		$this->repo = new Repository($adapter);
+		$this->repo = Repository::factory(new LocalAdapter('tests/fixtures/repository'))->post();
 		$this->obj = $this->repo->post('test_post');
 	}
 

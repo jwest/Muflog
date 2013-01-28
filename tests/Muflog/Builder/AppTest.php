@@ -10,7 +10,7 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 
 	public function setUp() {
 		$adapter = new LocalAdapter('tests/fixtures/repository');
-		$this->repo = new Repository($adapter);
+		$this->repo = Repository::factory($adapter)->post();
 		$this->in = new Filesystem($adapter);
 		$memory = new MemoryAdapter();
 		$this->out = new Filesystem($memory);
