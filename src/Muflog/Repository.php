@@ -53,8 +53,9 @@ class Repository {
 
 	public function keys() {
 		$posts = $this->fileSystem->keys();
-		return array_map(function($post) {
-			return substr($post, 0, strlen(self::FILE_TYPE) * -1);
+		$repository = $this;
+		return array_map(function($post) use ($repository) {
+			return substr($post, 0, strlen($repository::FILE_TYPE) * -1);
 		}, $posts);
 	}
 
