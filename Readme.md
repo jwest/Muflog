@@ -1,5 +1,5 @@
-**muflog**
+*muflog*
 
-[![Build Status](https://travis-ci.org/jwest/muflog.png?branch=master)](https://travis-ci.org/jwest/muflog)
+Master: [![Build Status](https://travis-ci.org/jwest/Muflog.png?branch=master)](https://travis-ci.org/jwest/Muflog)
 
 
