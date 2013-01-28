@@ -19,15 +19,18 @@ class Muflog_Parser_Markdown_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetMetaTitle() {
-		$this->assertEquals('test post', $this->obj->meta()['title']);
+		$meta = $this->obj->meta();
+		$this->assertEquals('test post', $meta['title']);
 	}
 
 	public function testGetMetaDate() {
-		$this->assertEquals('2013-01-18', $this->obj->meta()['date']);
+		$meta = $this->obj->meta();
+		$this->assertEquals('2013-01-18', $meta['date']);
 	}
 
 	public function testGetMetaTags() {
-		$this->assertEquals('test,post,testTag,php,unit,phpunit', $this->obj->meta()['tags']);
+		$meta = $this->obj->meta();
+		$this->assertEquals('test,post,testTag,php,unit,phpunit', $meta['tags']);
 	}
 
 }
