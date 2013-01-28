@@ -49,16 +49,14 @@ class App extends \Slim\Slim {
 
 	private function prepareRun(Middleware $middleware, $routeRaw, $data, $pageIterator) {
 		for ($i=1; true; $i++) {
-			if ($this->callbackStart !== null)
-				call_user_func($this->callbackStart);
-
+			$this->callbackStart();
+			
 			$route = $this->prepareRoute($routeRaw, $data, $i);
-			$this->prepareEnv($middleware, $route);				
+			$this->prepareEnv($middleware, $route);
+
+			$this->callbackEnd($route);
 			if (!$this->runRoute($route) || !$pageIterator)
 				return;
-
-			if ($this->callbackEnd !== null)
-				call_user_func($this->callbackEnd, $route);
 		}		
 	}
 
@@ -96,6 +94,16 @@ class App extends \Slim\Slim {
 
 	public function middlewares() {
 		return $this->middlewares;
+	}
+
+	private function callbackStart() {
+		if ($this->callbackStart !== null)
+			call_user_func($this->callbackStart);
+	}
+
+	private function callbackEnd($route) {
+		if ($this->callbackEnd !== null)
+			call_user_func($this->callbackEnd, $route);
 	}
 
 }

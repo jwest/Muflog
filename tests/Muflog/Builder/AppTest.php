@@ -54,7 +54,7 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 
 	public function testCallbackStartRunOnBuildRoute() {
 		$obj = new App($this->repo, $this->out);
-		$obj->addModule(new \Muflog\Module\Listing($this->repo));
+		$obj->addModule(new \Muflog\Module\Post($this->repo));
 		try {
 			$obj->build(function(){
 				throw new CallbackException('test');		
@@ -65,7 +65,7 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 
 	public function testCallbackEndRunOnBuildRoute() {
 		$obj = new App($this->repo, $this->out);
-		$obj->addModule(new \Muflog\Module\Listing($this->repo));
+		$obj->addModule(new \Muflog\Module\Post($this->repo));
 		try {
 			$obj->build(null, function($route){
 				throw new CallbackException('test');
