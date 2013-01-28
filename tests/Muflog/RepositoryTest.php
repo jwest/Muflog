@@ -50,7 +50,8 @@ class Muflog_Repository_Test extends PHPUnit_Framework_TestCase {
 
 	public function testGetPostsOrderCheck() {
 		$repo = new Repository(new LocalAdapter('tests/fixtures/repository'));
-		$this->assertEquals('test_post_3.md', $repo->posts()[0]->fileName());	
+		$posts = $repo->posts();
+		$this->assertEquals('test_post_3.md', $posts[0]->fileName());	
 	}
 
 	public function testGetPaginationInstance() {
