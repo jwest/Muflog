@@ -4,24 +4,17 @@ namespace Muflog;
 
 use Gaufrette\Filesystem;
 use Muflog\Repository\Post;
+use Muflog\Repository\Page;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
-class Repository {
+abstract class Repository {
 
 	const FILE_TYPE = '.md';
 
 	private $adapter;
 
-	public static function factory(LocalAdapter $adapter) {
-		return new self($adapter);
+	public static function factory($name, LocalAdapter $adapter) {
+		$className = 'Muflog\\Repository\\'.ucfirst($name);
+		return new $className($adapter);
 	} 
-
-	protected function __construct(LocalAdapter $adapter) {
-		$this->adapter = $adapter;
-	}
-
-	public function post() {
-		return new Post($this->adapter);
-	}
-
 }

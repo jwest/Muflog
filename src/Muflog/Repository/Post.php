@@ -13,7 +13,7 @@ class Post extends Repository {
 	private $fileSystem;
 	private $posts = array();
 
-	public function __construct(LocalAdapter $adapter = null) {
+	public function __construct(LocalAdapter $adapter) {
 		$this->fileSystem = new Filesystem($adapter);
 		$posts = $this->loadPosts();
 		$this->posts = $this->sortPosts($posts);

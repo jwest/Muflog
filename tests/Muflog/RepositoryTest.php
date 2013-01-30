@@ -8,11 +8,11 @@ class Muflog_Repository_Test extends PHPUnit_Framework_TestCase {
 
 	public function testCreateByFactory() {
 		$adapter = new LocalAdapter('tests/fixtures/repository');	
-		$this->assertInstanceOf('\Muflog\Repository\Post', Repository::factory($adapter)->post());	
+		$this->assertInstanceOf('\Muflog\Repository\Post', Repository::factory('post', $adapter));
 	}
 
 	public function testGetPostRepository() {
-		$repo = Repository::factory(new LocalAdapter('tests/fixtures/repository'));	
-		$this->assertInstanceOf('\Muflog\Repository\Post', $repo->post());
+		$repo = Repository::factory('post', new LocalAdapter('tests/fixtures/repository'));	
+		$this->assertInstanceOf('\Muflog\Repository\Post', $repo);
 	}
 }
