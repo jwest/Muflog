@@ -7,7 +7,7 @@ use Gaufrette\Adapter\Local as LocalAdapter;
 class Muflog_Pagination_Test extends PHPUnit_Framework_TestCase {
 
 	public function setUp() {
-		$this->repo = Repository::factory('post', new LocalAdapter('tests/fixtures/repository'));
+		$this->repo = Repository::factory('post', new LocalAdapter('tests/fixtures/repository/posts'));
 		Pagination::itemsOnPage(2);
 	}
 

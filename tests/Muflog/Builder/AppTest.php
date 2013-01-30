@@ -9,7 +9,7 @@ use Gaufrette\Adapter\InMemory as MemoryAdapter;
 class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 
 	public function setUp() {
-		$adapter = new LocalAdapter('tests/fixtures/repository');
+		$adapter = new LocalAdapter('tests/fixtures/repository/posts');
 		$this->repo = Repository::factory('post', $adapter);
 		$this->in = new Filesystem($adapter);
 		$memory = new MemoryAdapter();

@@ -7,7 +7,7 @@ use Gaufrette\Adapter\Local as LocalAdapter;
 class Muflog_Parser_Markdown_Test extends PHPUnit_Framework_TestCase {
 
 	public function setUp() {
-		$this->obj = new Markdown(file_get_contents('tests/fixtures/repository/test_post.md'));
+		$this->obj = new Markdown(file_get_contents('tests/fixtures/repository/posts/test_post.md'));
 	}
 
 	public function testInstanceOf() {

@@ -7,7 +7,7 @@ use Gaufrette\Adapter\Local as LocalAdapter;
 class Muflog_Repository_Post_Test extends PHPUnit_Framework_TestCase {
 
 	public function setUp() {
-		$this->repo = Repository::factory('post', new LocalAdapter('tests/fixtures/repository'));
+		$this->repo = Repository::factory('post', new LocalAdapter('tests/fixtures/repository/posts'));
 	}
 
 	public function testCreateInstance() {
@@ -66,8 +66,8 @@ class Muflog_Repository_Post_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testDateNotExistsInPostFile() {
-		$repo = Repository::factory('post', new LocalAdapter('tests/fixtures/repository'));
+		$repo = Repository::factory('post', new LocalAdapter('tests/fixtures/repository/posts'));
 		$post = $repo->post('test_post_4_without_date');
-		$this->assertEquals(filemtime('tests/fixtures/repository/test_post_4_without_date.md'), $post->date()->getTimestamp());
+		$this->assertEquals(filemtime('tests/fixtures/repository/posts/test_post_4_without_date.md'), $post->date()->getTimestamp());
 	}
 }

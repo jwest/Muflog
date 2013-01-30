@@ -8,8 +8,7 @@ use Gaufrette\Adapter\Local as LocalAdapter;
 class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 
 	public function setUp() {
-		$adapter = new LocalAdapter('tests/fixtures/repository');
-		$this->repo = Repository::factory('post', new LocalAdapter('tests/fixtures/repository'));
+		$this->repo = Repository::factory('post', new LocalAdapter('tests/fixtures/repository/posts'));
 		$this->obj = $this->repo->post('test_post');
 	}
 
@@ -40,7 +39,7 @@ class Muflog_Post_Test extends PHPUnit_Framework_TestCase {
 
 	public function testGetDateFromFileModifyDate() {
 		$this->obj = $this->repo->post('test_post_4_without_date');
-		$this->assertEquals(new DateTime('@'.filemtime('tests/fixtures/repository/test_post_4_without_date.md')), $this->obj->date());
+		$this->assertEquals(new DateTime('@'.filemtime('tests/fixtures/repository/posts/test_post_4_without_date.md')), $this->obj->date());
 	}
 
 	public function testGetTags() {
