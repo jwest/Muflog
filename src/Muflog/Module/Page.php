@@ -4,9 +4,9 @@ namespace Muflog\Module;
 
 use Muflog\Repository;
 
-class Post extends \Slim\Middleware {
+class Page extends \Slim\Middleware {
 
-	const ROUTE_SCHEMA = '/post/%s';
+	const ROUTE_SCHEMA = '/page/%s';
     const PAGE_ITERATE = false;
 
 	private $repository;
@@ -16,17 +16,17 @@ class Post extends \Slim\Middleware {
 	}
 
     public function call() {
-        $this->app->get('/post/:name', array($this, 'get'))->name('post');
+        $this->app->get('/page/:name', array($this, 'get'))->name('page');
         $this->next->call();
     }
 
     public function get($name) {
     	try {
-			$post = $this->repository->post($name);
+			$page = $this->repository->page($name);
 		} catch (\InvalidArgumentException $e) {
 			$this->app->notFound();
 		}
-		$this->app->render('layout.php', array('app' => $this->app, 'posts' => array($post)));
+		$this->app->render('layout.php', array('app' => $this->app, 'page' => array($page)));
     }
 
 }

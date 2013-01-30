@@ -10,7 +10,6 @@ use Gaufrette\Adapter\Local as LocalAdapter;
 
 class Post extends Repository {
 
-	private $fileSystem;
 	private $posts = array();
 
 	public function __construct(LocalAdapter $adapter) {
@@ -30,7 +29,7 @@ class Post extends Repository {
 	public function post($name, $withoutType = false) {
 		if (!$withoutType)
 			$name = $name . self::FILE_TYPE;
-		return new PostEntity($this->postFile($name));
+		return new PostEntity($this->loadFile($name));
 	}
 
 	public function pageByTag($page, $tag) {
@@ -56,12 +55,6 @@ class Post extends Repository {
 		return array_map(function($post) use ($repository) {
 			return substr($post, 0, strlen($repository::FILE_TYPE) * -1);
 		}, $posts);
-	}
-
-	protected function postFile($name) {		
-		if (!$this->fileSystem->has($name))
-			throw new \InvalidArgumentException('file \''.$name.'\' loaded error');
-		return $this->fileSystem->get($name);
 	}
 
 	private function loadPosts() {

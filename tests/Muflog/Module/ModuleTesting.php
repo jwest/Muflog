@@ -51,7 +51,7 @@ abstract class Muflog_Module_ModuleTesting extends PHPUnit_Framework_TestCase {
     }
 
     public function renderParams() {
-        return $this->arrayHasKey('posts');
+        return $this->arrayHasKey('app');
     }
 
     private function slimMock($method, $route, $input = '', array $params = array()) {

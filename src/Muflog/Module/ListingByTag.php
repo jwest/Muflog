@@ -25,7 +25,7 @@ class ListingByTag extends \Slim\Middleware {
     	$posts = $pagination->posts();
 		if (empty($posts))
 			$this->app->notFound();
-		$this->app->render('layout.php', array('posts' => $posts, 'pagination' => $pagination));
+		$this->app->render('layout.php', array('app' => $this->app, 'posts' => $posts, 'pagination' => $pagination));
     }
 
 }

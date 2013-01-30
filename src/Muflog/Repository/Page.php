@@ -9,7 +9,6 @@ use Gaufrette\Adapter\Local as LocalAdapter;
 
 class Page extends Repository {
 
-	private $fileSystem;
 	private $pages = array();
 
 	public function __construct(LocalAdapter $adapter) {
@@ -33,13 +32,7 @@ class Page extends Repository {
 	public function page($name, $withoutType = false) {
 		if (!$withoutType)
 			$name = $name . self::FILE_TYPE;
-		return new PageEntity($this->pageFile($name));
-	}
-
-	protected function pageFile($name) {		
-		if (!$this->fileSystem->has($name))
-			throw new \InvalidArgumentException('file \''.$name.'\' loaded error');
-		return $this->fileSystem->get($name);
+		return new PageEntity($this->loadFile($name));
 	}
 
 }
