@@ -68,32 +68,47 @@
 		<h3>Your markup files blog</h3>
 	</header>
 
-	<section>
-		<?php foreach ($posts as $post): ?>
+	<?php if (isset($posts)): ?>
+			
+		<section>
+			<?php foreach ($posts as $post): ?>
+				<article>
+					<h2><a href="/muflog/web/post/<?php echo $post->name(); ?>"><?php echo $post->title(); ?></a></h2>
+					<div class="meta">
+						<span class="datetime"><?php echo $post->date()->format('Y-m-d H:m'); ?></span>
+						<span class="tags"><?php echo implode(', ', $post->tags()); ?></span>
+					</div>
+					<div>
+						<?php echo $post->content(); ?>
+					</div>
+				</article>
+			<?php endforeach ?>		
+		</section>
+
+		<?php if (isset($pagination)): ?>
+			<div>
+				<?php if ($pagination->next()): ?>
+					<a href="/muflog/web/<?php echo $pagination->next(); ?>">Next</a>
+				<?php endif ?>
+
+				<?php if ($pagination->prev()): ?>
+					<a href="/muflog/web/<?php echo $pagination->prev(); ?>">Prev</a>
+				<?php endif ?>			
+			</div>
+		<?php endif ?>	
+
+	<?php elseif (isset($page)): ?>
+
+		<section>
 			<article>
-				<h2><a href="/muflog/web/post/<?php echo $post->name(); ?>"><?php echo $post->title(); ?></a></h2>
-				<div class="meta">
-					<span class="datetime"><?php echo $post->date()->format('Y-m-d H:m'); ?></span>
-					<span class="tags"><?php echo implode(', ', $post->tags()); ?></span>
-				</div>
+				<h2><a href="/muflog/web/post/<?php echo $page->name(); ?>"><?php echo $page->title(); ?></a></h2>
 				<div>
-					<?php echo $post->content(); ?>
+					<?php echo $page->content(); ?>
 				</div>
 			</article>
-		<?php endforeach ?>		
-	</section>
+		</section>
 
-	<?php if (isset($pagination)): ?>
-		<div>
-			<?php if ($pagination->next()): ?>
-				<a href="/muflog/web/<?php echo $pagination->next(); ?>">Next</a>
-			<?php endif ?>
-
-			<?php if ($pagination->prev()): ?>
-				<a href="/muflog/web/<?php echo $pagination->prev(); ?>">Prev</a>
-			<?php endif ?>			
-		</div>
-	<?php endif ?>	
+	<?php endif ?>
 
 </body>
 </html>

@@ -35,4 +35,12 @@ class Page extends Repository {
 		return new PageEntity($this->loadFile($name));
 	}
 
+	public function keys() {
+		$pages = $this->fileSystem->keys();
+		$repository = $this;
+		return array_map(function($page) use ($repository) {
+			return substr($page, 0, strlen($repository::FILE_TYPE) * -1);
+		}, $pages);
+	}
+
 }

@@ -8,7 +8,9 @@ use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
 \Muflog\Pagination::itemsOnPage(3);
-$repository = new Repository(new LocalAdapter('tests/fixtures/repository'));
+$posts = Repository::factory('post', new LocalAdapter('tests/fixtures/repository/posts'));
+$pages = Repository::factory('page', new LocalAdapter('tests/fixtures/repository/pages'));
+
 $output = new Filesystem(new LocalAdapter('web'));
 
 $time = new Timer();
@@ -23,11 +25,15 @@ $endCb = function($route) use ($time) {
  	$time->stopAvg('page');
 };
 
-$app = new App($repository, $output);
-$app->addModule(new \Muflog\Module\Listing($repository));
-$app->addModule(new \Muflog\Module\ListingByTag($repository), array_keys($repository->tags()));
-$app->addModule(new \Muflog\Module\Post($repository), $repository->keys());
+$app = new App($posts, $output);
+$app->addModule(new \Muflog\Module\Listing($posts));
+$app->addModule(new \Muflog\Module\ListingByTag($posts), array_keys($posts->tags()));
+$app->addModule(new \Muflog\Module\Post($posts), $posts->keys());
+$app->build($startCb, $endCb);
+
+$app = new App($pages, $output);
+$app->addModule(new \Muflog\Module\Page($pages), $pages->keys());
 $app->build($startCb, $endCb);
 
 $time->stop('total');
-$time->report();
+echo $time->report();

@@ -22,4 +22,8 @@ class Muflog_Repository_Page_Test extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('\Muflog\Page', $this->repo->page('test_page_2'));
 	}
 
+	public function testGetKeys() {
+		$this->assertCount(2, $this->repo->keys());
+	}
+
 }
