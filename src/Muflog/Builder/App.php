@@ -85,7 +85,7 @@ class App extends \Slim\Slim {
 	private function generateIndex() {
 		foreach ($this->output->keys() as $key) {
 			if (substr($key, -strlen('/1')) == '/1')
-				$this->output->write(dirname($key).'index.html', $this->output->read($key), true);
+				$this->output->write(dirname($key).'/index.html', $this->output->read($key), true);
 		}
 		try {
 			$this->output->write('index.html', $this->output->read(1), true);

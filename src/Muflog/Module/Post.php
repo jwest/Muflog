@@ -26,7 +26,7 @@ class Post extends \Slim\Middleware {
 		} catch (\InvalidArgumentException $e) {
 			$this->app->notFound();
 		}
-		$this->app->render('layout.php', array('app' => $this->app, 'posts' => array($post)));
+		$this->app->render('post.php', array('app' => $this->app, 'post' => $post));
     }
 
 }

@@ -26,4 +26,7 @@ class Muflog_Module_ListingByTagTest extends Muflog_Module_ModuleTesting {
         return new ListingByTag(Repository::factory('post', new LocalAdapter('tests/fixtures/repository/posts')));
     }
 
+    public function renderTemplateName() {
+        return 'listingByTag.php';
+    }
 }

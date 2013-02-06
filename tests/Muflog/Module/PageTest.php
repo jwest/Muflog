@@ -22,4 +22,7 @@ class Muflog_Module_PageTest extends Muflog_Module_ModuleTesting {
         return new Page(Repository::factory('page', new LocalAdapter('tests/fixtures/repository/pages')));
     }
 
+    public function renderTemplateName() {
+        return 'page.php';
+    }
 }

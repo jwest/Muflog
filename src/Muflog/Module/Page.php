@@ -26,7 +26,7 @@ class Page extends \Slim\Middleware {
 		} catch (\InvalidArgumentException $e) {
 			$this->app->notFound();
 		}
-		$this->app->render('layout.php', array('app' => $this->app, 'page' => $page));
+		$this->app->render('page.php', array('app' => $this->app, 'page' => $page));
     }
 
 }
