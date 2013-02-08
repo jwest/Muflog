@@ -2,6 +2,8 @@
 <?php
 require 'vendor/autoload.php';
 
+use FusePump\Cli\Timer;
+use FusePump\Cli\Logger;
 use Muflog\Builder\App;
 use Muflog\Repository;
 use Gaufrette\Filesystem;

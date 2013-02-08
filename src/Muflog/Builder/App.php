@@ -22,7 +22,7 @@ class App extends \Slim\Slim {
 
 	public function addModule(Middleware $middleware, array $dataForRoute = array()) {
 		$this->middlewares[] = array(			
-			$middleware, $middleware::ROUTE_SCHEMA, $dataForRoute, $middleware::PAGE_ITERATE
+			$middleware, $middleware->getRouteScheme(), $dataForRoute, $middleware->hasPagination()
 		);
 	}
 

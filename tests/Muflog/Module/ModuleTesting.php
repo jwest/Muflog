@@ -20,12 +20,6 @@ abstract class Muflog_Module_ModuleTesting extends PHPUnit_Framework_TestCase {
         return $app;
     }
 
-    public function testGetSchema() {
-        $obj = $this->getObj();
-        $obj::ROUTE_SCHEMA;
-        $obj::PAGE_ITERATE;
-    }
-
     public function setUp() {
         ob_start();
     }

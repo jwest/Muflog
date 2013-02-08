@@ -4,22 +4,11 @@ namespace Muflog\Module;
 
 use Muflog\Repository;
 
-class Listing extends \Slim\Middleware {
+class Listing extends \Muflog\Module {
 
-    const ROUTE_SCHEMA = '/%d';
-    const PAGE_ITERATE = true;
-
-	private $repository;
-
-	public function __construct(Repository $repository) {
-		$this->repository = $repository;
-	}
-
-    public function call() {
-        $this->app->get('/(:page)', array($this, 'get'))->name('post');
-        $this->next->call();
-    }
-
+    protected $route = '/(:page)';
+    protected $hasPagination = true;
+    
     public function get($page = 1) {
     	$pagination = $this->repository->page($page);
     	$posts = $pagination->posts();

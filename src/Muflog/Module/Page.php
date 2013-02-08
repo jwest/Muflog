@@ -4,21 +4,9 @@ namespace Muflog\Module;
 
 use Muflog\Repository;
 
-class Page extends \Slim\Middleware {
+class Page extends \Muflog\Module {
 
-	const ROUTE_SCHEMA = '/page/%s';
-    const PAGE_ITERATE = false;
-
-	private $repository;
-
-	public function __construct(Repository $repository) {
-		$this->repository = $repository;
-	}
-
-    public function call() {
-        $this->app->get('/page/:name', array($this, 'get'))->name('page');
-        $this->next->call();
-    }
+	protected $route = '/page/:name';
 
     public function get($name) {
     	try {
