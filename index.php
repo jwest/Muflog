@@ -4,6 +4,7 @@ require 'vendor/autoload.php';
 use Muflog\Repository;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
+\Muflog\Pagination::itemsOnPage(1);
 $posts = Repository::factory('post', new LocalAdapter('tests/fixtures/repository/posts'));
 $pages = Repository::factory('page', new LocalAdapter('tests/fixtures/repository/pages'));
 
