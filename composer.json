@@ -5,7 +5,7 @@
     "description": "Create blog with markdown files and convert to static files, all function without php logic for end user",
     "keywords": ["jwest", "muflog", "blog", "markdown", "static", "slim"],
     "homepage": "https://github.com/jwest/Muflog",
-    "license" : "New BSD",
+    "license" : "LGPL-2.0+",
     "require": {
         "php": ">=5.3.0",
         "slim/slim": "2.2.0",

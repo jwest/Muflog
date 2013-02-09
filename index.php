@@ -1,4 +1,7 @@
 <?php
+// use only in develop
+// better way is rebuild blog after change posts
+
 require 'vendor/autoload.php';
 
 use Muflog\Repository;

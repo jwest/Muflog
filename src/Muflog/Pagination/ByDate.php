@@ -54,8 +54,9 @@ class ByDate extends Pagination {
 	}
 
 	private function postsForPage($page) {
-		return array_filter($this->posts, function($post) use ($page) {
-			return $this->compareDate($post, $page);
+		$obj = $this;
+		return array_filter($this->posts, function($post) use ($obj, $page) {
+			return $obj->compareDate($post, $page);
 		});
 	}
 

@@ -17,8 +17,11 @@ abstract class Pagination {
 	}
 
 	abstract public function next();
+	
 	abstract public function prev();
+
 	abstract public function max();
+
 	abstract public function posts();
 
 	protected static $itemsOnPage = 3;

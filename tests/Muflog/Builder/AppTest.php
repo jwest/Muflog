@@ -77,8 +77,9 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 	public function testCallbackEndRunOnBuildWithArgRoute() {
 		$obj = new App($this->repo, $this->out);
 		$obj->addModule(new \Muflog\Module\Post($this->repo), array('test_post', 'test_post_2'));
-		$obj->build(null, function($route) {
-			$this->assertContains('/post/test_post', $route);
+		$test = $this;
+		$obj->build(null, function($route) use ($test) {
+			$test->assertContains('/post/test_post', $route);
 		});		
 	}
 
