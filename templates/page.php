@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>MufLog</title>
+	<title>MufLog - Page `<?php echo $page->title(); ?>`</title>
 	<style type="text/css">
 		body { width: 800px; margin: auto; background-color: #eee; font-family: sans-serif; }
 		header { display: block; margin-top: 20px; height: 60px; }
@@ -16,14 +16,21 @@
 		.meta { background-color: #ddd; padding: 5px 10px; margin-top: -26px; text-align: right; }
 		.meta .tags a { font-size: 10pt; margin-right: 11px; color: #888; }
 		.meta .datetime { font-size: 10pt; font-style: italic; color: #888; }
+		header .mainHeader { float: left; }
+		header .contentHeader { float: right; }
+		header .contentHeader h4 { font-size: 25; font-weight: normal; font-family: serif; text-shadow: 1px 1px 1px #999; }
 	</style>
 </head>
 <body>
 
 	<header>
-		<h1><a href="/muflog/web">Muflog</a></h1>
-		<h3>Your markup files blog</h3>
-		<h4>Page `<?php echo $page->name(); ?>`</h4>
+		<div class="mainHeader">
+			<h1><a href="/muflog/web">Muflog</a></h1>
+			<h3>Your markup static files blog</h3>
+		</div>
+		<div class="contentHeader">
+			<h4>Page `<?php echo $page->title(); ?>`</h4>
+		</div>
 	</header>
 
 	<section>

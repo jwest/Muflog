@@ -16,13 +16,21 @@
 		.meta { background-color: #ddd; padding: 5px 10px; margin-top: -26px; text-align: right; }
 		.meta .tags a { font-size: 10pt; margin-right: 11px; color: #888; }
 		.meta .datetime { font-size: 10pt; font-style: italic; color: #888; }
+		header .mainHeader { float: left; }
+		header .contentHeader { float: right; }
+		header .contentHeader h4 { font-size: 25; font-weight: normal; font-family: serif; text-shadow: 1px 1px 1px #999; }
 	</style>
 </head>
 <body>
 
 	<header>
-		<h1><a href="/muflog/web">Muflog</a></h1>
-		<h3>Your markup files blog</h3>
+		<div class="mainHeader">
+			<h1><a href="/muflog/web">Muflog</a></h1>
+			<h3>Your markup static files blog</h3>
+		</div>
+		<div class="contentHeader">
+			<h4></h4>
+		</div>
 	</header>
 
 	<section>
