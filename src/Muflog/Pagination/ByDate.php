@@ -49,7 +49,7 @@ class ByDate extends Pagination {
 		return false;
 	}
 
-	private function compareDate($post, $page) {
+	public function compareDate($post, $page) {
 		return $post->date()->format('Y/m') === $page[0].'/'.$page[1];
 	}
 
