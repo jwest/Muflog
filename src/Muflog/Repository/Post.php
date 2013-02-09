@@ -4,6 +4,7 @@ namespace Muflog\Repository;
 
 use Muflog\Post as PostEntity;
 use Muflog\Pagination;
+use Muflog\Pagination\Simple;
 use Muflog\Repository;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
@@ -23,7 +24,7 @@ class Post extends Repository {
 	}
 
 	public function page($page) {		
-		return new Pagination($this->posts(), $page);
+		return new Simple($this->posts(), $page);
 	}
 
 	public function post($name, $withoutType = false) {
@@ -33,7 +34,7 @@ class Post extends Repository {
 	}
 
 	public function pageByTag($page, $tag) {
-		return new Pagination($this->postsByTag($tag), $page);
+		return new Simple($this->postsByTag($tag), $page);
 	}
 
 	public function postsByTag($tag) {

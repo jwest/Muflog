@@ -2,56 +2,26 @@
 
 namespace Muflog;
 
-class Pagination {
+abstract class Pagination {
 
-	private $posts;
-	private $page;
+	protected $posts;
+	protected $page;
 
 	public function __construct(array $posts = array(), $page) {
 		$this->posts = $posts;
 		$this->page = $page;
 	}
 
-	public function posts() {
-		return $this->postsForPage($this->page);
-	}
-
 	public function page() {
 		return $this->page;
 	}
 
-	public function max() {
-		return floor(count($this->posts) / self::itemsOnPage());
-	}
+	abstract public function next();
+	abstract public function prev();
+	abstract public function max();
+	abstract public function posts();
 
-	public function next() {
-		if ($this->checkPosts($this->page - 1))
-			return $this->page - 1;
-		return false;
-	}
-
-	public function prev() {		
-		if ($this->checkPosts($this->page + 1))
-			return $this->page + 1;
-		return false;	
-	}
-
-	private function offset($page) {
-		return ($page - 1) * self::itemsOnPage();
-	}
-
-	private function checkPosts($page) {
-		return count($this->postsForPage($page)) > 0;
-	}
-
-	private function postsForPage($page) {
-		if ($page < 1) 
-			return array();
-		$offset = $this->offset($page);
-		return array_slice($this->posts, $offset, self::itemsOnPage());
-	}
-
-	private static $itemsOnPage = 3;
+	protected static $itemsOnPage = 3;
 
 	public static function itemsOnPage($itemsCount = null) {
 		if ($itemsCount !== null)
