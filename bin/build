@@ -25,6 +25,9 @@ $endCb = function($route) use ($time) {
 };
 
 $app = new App(new Filesystem(new LocalAdapter('web')));
+$app->config('absoluteUrl', $config->main('absoluteUrl'));
+$app->config('templates.path', $config->main('templates'));
+
 foreach ($config->modules() as $module)
 	$app->addModule($module);
 $app->build($startCb, $endCb);

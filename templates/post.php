@@ -25,7 +25,7 @@
 
 	<header>
 		<div class="mainHeader">
-			<h1><a href="/muflog/web">Muflog</a></h1>
+			<h1><a href="<?php echo $app->config('absoluteUrl'); ?>">Muflog</a></h1>
 			<h3>Your markup static files blog</h3>
 		</div>
 		<div class="contentHeader">
@@ -35,7 +35,7 @@
 
 	<section>
 		<article>
-			<h2><a href="/muflog/web/post/<?php echo $post->name(); ?>"><?php echo $post->title(); ?></a></h2>
+			<h2><a href="<?php echo $app->config('absoluteUrl'); ?>/post/<?php echo $post->name(); ?>"><?php echo $post->title(); ?></a></h2>
 			<div class="meta">						
 				<span class="tags">
 					<?php foreach ($post->tags() as $postTag): ?>

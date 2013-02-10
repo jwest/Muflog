@@ -25,7 +25,7 @@
 
 	<header>
 		<div class="mainHeader">
-			<h1><a href="/muflog/web">Muflog</a></h1>
+			<h1><a href="<?php echo $app->config('absoluteUrl'); ?>">Muflog</a></h1>
 			<h3>Your markup static files blog</h3>
 		</div>
 		<div class="contentHeader">
@@ -36,11 +36,11 @@
 	<section>
 		<?php foreach ($posts as $post): ?>
 			<article>
-				<h2><a href="/muflog/web/post/<?php echo $post->name(); ?>"><?php echo $post->title(); ?></a></h2>
+				<h2><a href="<?php echo $app->config('absoluteUrl'); ?>/post/<?php echo $post->name(); ?>"><?php echo $post->title(); ?></a></h2>
 				<div class="meta">						
 					<span class="tags">
 						<?php foreach ($post->tags() as $postTag): ?>
-							<a href="/muflog/web/tag/<?php echo $postTag?>"><?php echo $postTag; ?></a>		
+							<a href="<?php echo $app->config('absoluteUrl'); ?>/tag/<?php echo $postTag?>"><?php echo $postTag; ?></a>
 						<?php endforeach ?>
 					</span>
 					<span class="datetime"><?php echo $post->date()->format('Y-m-d H:m'); ?></span>
@@ -55,11 +55,11 @@
 	<div class="pagination">
 
 		<?php if ($pagination->prev()): ?>
-			<a href="/muflog/web/<?php echo $pagination->prev(); ?>">&larr; Prev &lang;</a>
+			<a href="<?php echo $app->config('absoluteUrl').'/'.$pagination->prev(); ?>">&larr; Prev &lang;</a>
 		<?php endif ?>
 
 		<?php if ($pagination->next()): ?>
-			<a href="/muflog/web/<?php echo $pagination->next(); ?>">&rang; Next &rarr;</a>
+			<a href="<?php echo $app->config('absoluteUrl').'/'.$pagination->next(); ?>">&rang; Next &rarr;</a>
 		<?php endif ?>
 			
 	</div>

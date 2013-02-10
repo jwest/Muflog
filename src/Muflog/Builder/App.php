@@ -80,7 +80,9 @@ class App extends \Slim\Slim {
 
 	private function prepareEnv(Middleware $middleware, $route) {		
 		\Slim\Environment::mock(array('PATH_INFO' => $route));
+		$config = $this->settings;
 		parent::__construct();
+		$this->settings = $config;
 		parent::add($middleware);
 	}
 

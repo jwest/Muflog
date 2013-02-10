@@ -20,15 +20,22 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('\Muflog\Builder\App', new App($this->out));
 	}
 
-	public function testAddMiddlewareForGenerate() {
+	protected function getObj() {
 		$obj = new App($this->out);
+		$obj->config('absoluteUrl', 'http://localhost');
+		$obj->config('templates.path', 'templates');
+		return $obj;
+	}
+
+	public function testAddMiddlewareForGenerate() {
+		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\Post($this->repo), $this->in->keys());
 		$middlewares = $obj->middlewares();
 		$this->assertInstanceOf('\Slim\Middleware', $middlewares[0]);
 	}
 
 	public function testBuildPostModule() {
-		$obj = new App($this->out);
+		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\Post($this->repo));
 		$obj->build();		
 		$this->assertTrue($this->out->has('post/test_post'));
@@ -36,7 +43,7 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testBuildListingModule() {
-		$obj = new App($this->out);
+		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\Listing($this->repo));
 		$obj->build();
 		$this->assertTrue($this->out->has('1'));
@@ -45,7 +52,7 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 
 	public function testBuildListingByTagModule() {
 		\Muflog\Pagination::itemsOnPage(1);
-		$obj = new App($this->out);
+		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\ListingByTag($this->repo));
 		$obj->build();
 		$this->assertTrue($this->out->has('tag/testTag/1'));
@@ -54,7 +61,7 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 
 	public function testBuildListingByDateModule() {
 		\Muflog\Pagination::itemsOnPage(1);
-		$obj = new App($this->out);
+		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\ListingByDate($this->repo));
 		$obj->build();
 		$this->assertTrue($this->out->has('2013/01'));
@@ -63,14 +70,14 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 
 	public function testBuildListingByDateModuleIndexCheck() {
 		\Muflog\Pagination::itemsOnPage(1);
-		$obj = new App($this->out);
+		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\ListingByDate($this->repo));
 		$obj->build();
 		$this->assertTrue($this->out->has('index.html'));
 	}
 
 	public function testCallbackStartRunOnBuildRoute() {
-		$obj = new App($this->out);
+		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\Post($this->repo));
 		try {
 			$obj->build(function(){
@@ -81,7 +88,7 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testCallbackEndRunOnBuildRoute() {
-		$obj = new App($this->out);
+		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\Post($this->repo));
 		try {
 			$obj->build(null, function($route){
@@ -92,7 +99,7 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testCallbackEndRunOnBuildWithArgRoute() {
-		$obj = new App($this->out);
+		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\Post($this->repo));
 		$test = $this;
 		$obj->build(null, function($route) use ($test) {
@@ -101,10 +108,18 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testCheckIndexExists() {
-		$obj = new App($this->out);
+		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\Listing($this->repo));
 		$obj->build();
 		$this->assertTrue($this->out->has('index.html'));
+	}
+
+	public function testSetConfig() {
+		$obj = $this->getObj();
+		$obj->config('cookies.lifetime', 'time');
+		$obj->addModule(new \Muflog\Module\Listing($this->repo));		
+		$obj->build();
+		$this->assertEquals('time', $obj->config('cookies.lifetime'));
 	}
 }
 
