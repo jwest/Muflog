@@ -3,8 +3,6 @@
 namespace Muflog\Repository;
 
 use Muflog\Post as PostEntity;
-use Muflog\Pagination;
-use Muflog\Pagination\Simple;
 use Muflog\Repository;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
@@ -23,8 +21,9 @@ class Post extends Repository {
 		return $this->posts;
 	}
 
-	public function page($page) {		
-		return new Simple($this->posts(), $page);
+	public function page($page, $paginationClass = 'Simple') {
+		$paginationClass = '\\Muflog\\Pagination\\'.ucfirst($paginationClass);
+		return new $paginationClass($this->posts(), $page);
 	}
 
 	public function post($name, $withoutType = false) {
@@ -33,8 +32,9 @@ class Post extends Repository {
 		return new PostEntity($this->loadFile($name));
 	}
 
-	public function pageByTag($page, $tag) {
-		return new Simple($this->postsByTag($tag), $page);
+	public function pageByTag($page, $tag, $paginationClass = 'Simple') {
+		$paginationClass = '\\Muflog\\Pagination\\'.ucfirst($paginationClass);
+		return new $paginationClass($this->postsByTag($tag), $page);
 	}
 
 	public function postsByTag($tag) {

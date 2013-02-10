@@ -48,7 +48,7 @@ abstract class Muflog_Module_ModuleTesting extends PHPUnit_Framework_TestCase {
         return $this->arrayHasKey('app');
     }
 
-    private function slimMock($method, $route, $input = '', array $params = array()) {
+    protected function slimMock($method, $route, $input = '', array $params = array()) {
         $params = array_merge(array('PATH_INFO' => $route), $params);
         \Slim\Environment::mock($params);
 

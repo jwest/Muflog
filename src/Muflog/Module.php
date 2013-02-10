@@ -8,7 +8,7 @@ abstract class Module extends \Slim\Middleware {
 
 	protected $repository;
 	protected $route;
-	protected $routeScheme;
+	protected $routeScheme = null;
 	protected $hasPagination = false;
 
 	public function __construct(Repository $repository) {
@@ -28,6 +28,8 @@ abstract class Module extends \Slim\Middleware {
     }
 
     public function getRouteScheme() {
+        if ($this->routeScheme !== null)
+            return $this->routeScheme;
     	return preg_replace('/\(?\/\(?:([a-z0-9])+\)?/i', '/%s', $this->route);
     }
 

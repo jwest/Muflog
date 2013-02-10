@@ -55,6 +55,16 @@ class Muflog_Repository_Post_Test extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('\Muflog\Pagination', $this->repo->page(1));
 	}
 
+	public function testGetPaginationInstanceSimple() {
+		\Muflog\Pagination::itemsOnPage(2);
+		$this->assertInstanceOf('\Muflog\Pagination\Simple', $this->repo->page(1));
+	}
+
+	public function testGetPaginationInstanceByDate() {
+		\Muflog\Pagination::itemsOnPage(2);
+		$this->assertInstanceOf('\Muflog\Pagination\ByDate', $this->repo->page(1, 'ByDate'));
+	}
+
 	public function testGetByTagPaginationInstance() {
 		\Muflog\Pagination::itemsOnPage(2);
 		$posts = $this->repo->pageByTag(1, 'testTag')->posts();
