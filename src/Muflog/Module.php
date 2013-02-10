@@ -9,7 +9,8 @@ abstract class Module extends \Slim\Middleware {
 	protected $repository;
 	protected $route;
 	protected $routeScheme = null;
-	protected $hasPagination = false;
+    protected $routeIndex = null;
+	protected $pagination = null;
 
 	public function __construct(Repository $repository) {
 		$this->repository = $repository;
@@ -27,14 +28,20 @@ abstract class Module extends \Slim\Middleware {
     	return $classNameParts[count($classNameParts)-1];
     }
 
+    public function getRouteIndex() {
+        if ($this->routeIndex !== null)
+            return $this->routeIndex;
+        return preg_replace('/\((.)+\)/i', '', $this->route);
+    }
+
     public function getRouteScheme() {
         if ($this->routeScheme !== null)
             return $this->routeScheme;
     	return preg_replace('/\(?\/\(?:([a-z0-9])+\)?/i', '/%s', $this->route);
     }
 
-    public function hasPagination() {
-    	return $this->hasPagination;
+    public function pagination() {
+    	return $this->pagination;
     }
 
 }

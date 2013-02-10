@@ -7,7 +7,7 @@ use Muflog\Repository;
 class Listing extends \Muflog\Module {
 
     protected $route = '/(:page)';
-    protected $hasPagination = true;
+    protected $pagination = 'Simple';
     
     public function get($page = 1) {
     	$pagination = $this->repository->page($page);

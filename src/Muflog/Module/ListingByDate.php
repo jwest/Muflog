@@ -8,6 +8,7 @@ class ListingByDate extends \Muflog\Module {
 
     protected $route = '/(:year)(/:mounth)';
     protected $routeScheme = '/%s';
+    protected $pagination = 'ByDate';    
     
     public function get($year = null, $mounth = null) {
         $pagination = null;

@@ -31,6 +31,11 @@ class Muflog_Pagination_Simple_Test extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, $obj->page());
 	}
 
+	public function testGetFirstPage() {
+		$obj = new Simple($this->repo->posts(), null);
+		$this->assertEquals(1, $obj->page());
+	}
+
 	public function testGetMaxPage() {
 		$obj = new Simple($this->repo->posts(), 1);
 		$this->assertEquals(2, $obj->max());
@@ -54,6 +59,32 @@ class Muflog_Pagination_Simple_Test extends PHPUnit_Framework_TestCase {
 	public function testGetPrevPageNonExists() {
 		$obj = new Simple($this->repo->posts(), 2);
 		$this->assertEquals(false, $obj->prev());
+	}
+
+	public function testGetNextPaginationObj() {
+		$obj = new Simple($this->repo->posts(), 3);
+		$obj = $obj->nextObj();
+		$this->assertInstanceOf('\\Muflog\\Pagination\\Simple', $obj);
+		$this->assertEquals(2, $obj->page());
+	}
+
+	public function testGetPrevPaginationObj() {
+		$obj = new Simple($this->repo->posts(), 1);
+		$obj = $obj->prevObj();
+		$this->assertInstanceOf('\\Muflog\\Pagination\\Simple', $obj);
+		$this->assertEquals(2, $obj->page());
+	}
+
+	public function testGetNextPaginationObjNull() {
+		$obj = new Simple($this->repo->posts(), 1);
+		$obj = $obj->nextObj();
+		$this->assertEquals(null, $obj);
+	}
+
+	public function testGetPrevPaginationObjNull() {
+		$obj = new Simple($this->repo->posts(), 3);
+		$obj = $obj->prevObj();
+		$this->assertEquals(null, $obj);
 	}
 
 	public function testGetPostsByPageFirstPage() {	

@@ -7,7 +7,7 @@ use Muflog\Repository;
 class ListingByTag extends \Muflog\Module {
 
     protected $route = '/tag/:tag(/:page)';
-    protected $hasPagination = true;
+    protected $pagination = 'Simple';
     
     public function get($tag, $page = 1) {
     	$pagination = $this->repository->pageByTag($page, $tag);

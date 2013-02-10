@@ -52,6 +52,23 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->out->has('tag/testTag/2'));
 	}
 
+	public function testBuildListingByDateModule() {
+		\Muflog\Pagination::itemsOnPage(1);
+		$obj = new App($this->repo, $this->out);
+		$obj->addModule(new \Muflog\Module\ListingByDate($this->repo));
+		$obj->build();
+		$this->assertTrue($this->out->has('2013/01'));
+		$this->assertTrue($this->out->has('2013/03'));
+	}
+
+	public function testBuildListingByDateModuleIndexCheck() {
+		\Muflog\Pagination::itemsOnPage(1);
+		$obj = new App($this->repo, $this->out);
+		$obj->addModule(new \Muflog\Module\ListingByDate($this->repo));
+		$obj->build();
+		$this->assertTrue($this->out->has('index.html'));
+	}
+
 	public function testCallbackStartRunOnBuildRoute() {
 		$obj = new App($this->repo, $this->out);
 		$obj->addModule(new \Muflog\Module\Post($this->repo));

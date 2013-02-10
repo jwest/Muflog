@@ -28,7 +28,7 @@ $endCb = function($route) use ($time) {
 };
 
 $app = new App($posts, $output);
-$app->addModule(new \Muflog\Module\Listing($posts));
+$app->addModule(new \Muflog\Module\ListingByDate($posts));
 $app->addModule(new \Muflog\Module\ListingByTag($posts), array_keys($posts->tags()));
 $app->addModule(new \Muflog\Module\Post($posts), $posts->keys());
 $app->build($startCb, $endCb);
