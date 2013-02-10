@@ -17,4 +17,8 @@ class Post extends \Muflog\Module {
 		$this->app->render('post.php', array('app' => $this->app, 'post' => $post));
     }
 
+    public function data() {
+    	return $this->repository->keys();
+    }
+
 }

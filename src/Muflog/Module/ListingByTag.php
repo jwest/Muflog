@@ -17,4 +17,8 @@ class ListingByTag extends \Muflog\Module {
 		$this->app->render('listingByTag.php', array('app' => $this->app, 'tag' => $tag, 'posts' => $posts, 'pagination' => $pagination));
     }
 
+    public function data() {
+    	return array_keys($this->repository->tags());
+    }
+
 }

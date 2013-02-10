@@ -17,4 +17,8 @@ class Page extends \Muflog\Module {
 		$this->app->render('page.php', array('app' => $this->app, 'page' => $page));
     }
 
+    public function data() {
+    	return $this->repository->keys();
+    }
+
 }

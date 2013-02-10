@@ -24,12 +24,12 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 		$obj = new App($this->repo, $this->out);
 		$obj->addModule(new \Muflog\Module\Post($this->repo), $this->in->keys());
 		$middlewares = $obj->middlewares();
-		$this->assertCount(4, $middlewares[0]);
+		$this->assertInstanceOf('\Slim\Middleware', $middlewares[0]);
 	}
 
 	public function testBuildPostModule() {
 		$obj = new App($this->repo, $this->out);
-		$obj->addModule(new \Muflog\Module\Post($this->repo), array('test_post', 'test_post_2'));
+		$obj->addModule(new \Muflog\Module\Post($this->repo));
 		$obj->build();		
 		$this->assertTrue($this->out->has('post/test_post'));
 		$this->assertTrue($this->out->has('post/test_post_2'));
@@ -46,7 +46,7 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 	public function testBuildListingByTagModule() {
 		\Muflog\Pagination::itemsOnPage(1);
 		$obj = new App($this->repo, $this->out);
-		$obj->addModule(new \Muflog\Module\ListingByTag($this->repo), array_keys($this->repo->tags()));
+		$obj->addModule(new \Muflog\Module\ListingByTag($this->repo));
 		$obj->build();
 		$this->assertTrue($this->out->has('tag/testTag/1'));
 		$this->assertTrue($this->out->has('tag/testTag/2'));
@@ -93,7 +93,7 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 
 	public function testCallbackEndRunOnBuildWithArgRoute() {
 		$obj = new App($this->repo, $this->out);
-		$obj->addModule(new \Muflog\Module\Post($this->repo), array('test_post', 'test_post_2'));
+		$obj->addModule(new \Muflog\Module\Post($this->repo));
 		$test = $this;
 		$obj->build(null, function($route) use ($test) {
 			$test->assertContains('/post/test_post', $route);

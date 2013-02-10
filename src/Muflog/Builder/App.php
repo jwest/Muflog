@@ -20,10 +20,8 @@ class App extends \Slim\Slim {
 		$this->repository = $repository;
 	}
 
-	public function addModule(Middleware $middleware, array $dataForRoute = array()) {
-		$this->middlewares[] = array(			
-			$middleware, $middleware->getRouteScheme(), $dataForRoute, $middleware->pagination()
-		);
+	public function addModule(Middleware $middleware) {
+		$this->middlewares[] = $middleware;
 	}
 
 	public function build($callbackStart = null, $callbackEnd = null) {
@@ -31,41 +29,40 @@ class App extends \Slim\Slim {
 		$this->callbackEnd = $callbackEnd;
 
 		foreach ($this->middlewares as $middleware) {
-			list($middleware, $routeRaw, $dataForRoute, $pageIterator) = $middleware;			
-			$this->iterateByItems($middleware, $routeRaw, $dataForRoute, $pageIterator);
+			$this->iterateByItems($middleware);
 		}
 
 		$this->generateIndex();
 	}
 
-	private function iterateByItems(Middleware $middleware, $routeRaw, $dataForRoute, $pageIterator) {
-		if (empty($dataForRoute)) {
-			$this->prepareRun($middleware, $routeRaw, null, $pageIterator);
-			return;
-		}
+	private function iterateByItems(Middleware $middleware) {
+		$dataForRoute = $middleware->data();
+		if (empty($dataForRoute))
+			return $this->prepareRun($middleware, null);
 		foreach ($dataForRoute as $data)
-			$this->prepareRun($middleware, $routeRaw, $data, $pageIterator);
+			$this->prepareRun($middleware, $data);
 	}
 
-	private function buildIndexPage($middleware) {
-		$this->prepareEnv($middleware, $middleware->getRouteIndex());
-		$this->runRoute($middleware->getRouteIndex().'index.html');
+	private function buildMainPage($middleware) {
+		$this->prepareEnv($middleware, $middleware->routeIndex());
+		$this->runRoute($middleware->routeIndex().'index.html');
 	}
 
-	private function prepareRun(Middleware $middleware, $routeRaw, $data, $pageIterator) {
-		$paginationObj = ($pageIterator !== null)
-			? $this->repository->page(null, $pageIterator)
+	private function prepareRun(Middleware $middleware, $data) {
+		$paginationObj = ($middleware->pagination() !== null)
+			? $this->repository->page(null, $middleware->pagination())
 			: null;
 
-		$this->buildIndexPage($middleware);
+		$this->buildMainPage($middleware);
 
 		while (true) {
 			$this->callbackStart();
 			
-			$route = $this->prepareRoute($routeRaw, $data, $paginationObj);
+			$route = $this->prepareRoute($middleware->routeScheme(), $data, $paginationObj);
 			$this->prepareEnv($middleware, $route);
 
 			$this->callbackEnd($route);
+
 			if (!$this->runRoute($route) || $paginationObj == null || !$paginationObj->page())
 				return;
 			$paginationObj = $paginationObj->prevObj();
