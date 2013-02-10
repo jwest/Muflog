@@ -2,7 +2,6 @@
 
 use Muflog\Post;
 use Muflog\Repository;
-use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
 class Muflog_Post_Test extends PHPUnit_Framework_TestCase {

@@ -5,15 +5,12 @@ require 'vendor/autoload.php';
 use FusePump\Cli\Timer;
 use FusePump\Cli\Logger;
 use Muflog\Builder\App;
-use Muflog\Repository;
+use Muflog\Config;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
+$config = new Config(new FileSystem(new LocalAdapter('tests/fixtures/main')));
 \Muflog\Pagination::itemsOnPage(3);
-$posts = Repository::factory('post', new LocalAdapter('tests/fixtures/repository/posts'));
-$pages = Repository::factory('page', new LocalAdapter('tests/fixtures/repository/pages'));
-
-$output = new Filesystem(new LocalAdapter('web'));
 
 $time = new Timer();
 $time->start('total');
@@ -27,14 +24,9 @@ $endCb = function($route) use ($time) {
  	$time->stopAvg('page');
 };
 
-$app = new App($posts, $output);
-$app->addModule(new \Muflog\Module\ListingByDate($posts));
-$app->addModule(new \Muflog\Module\ListingByTag($posts));
-$app->addModule(new \Muflog\Module\Post($posts));
-$app->build($startCb, $endCb);
-
-$app = new App($pages, $output);
-$app->addModule(new \Muflog\Module\Page($pages), $pages->keys());
+$app = new App(new Filesystem(new LocalAdapter('web')));
+foreach ($config->modules() as $module)
+	$app->addModule($module);
 $app->build($startCb, $endCb);
 
 $time->stop('total');

@@ -4,20 +4,17 @@ namespace Muflog\Builder;
 
 use Slim\Middleware;
 use Gaufrette\Filesystem;
-use Muflog\Repository;
 
 class App extends \Slim\Slim {
 
 	private $output;
-	private $repository;
 	private $middlewares = array();
 
 	private $callbackStart;
 	private $callbackEnd;
 
-	public function __construct(Repository $repository, Filesystem $output) {
+	public function __construct(Filesystem $output) {
 		$this->output = $output;
-		$this->repository = $repository;
 	}
 
 	public function addModule(Middleware $middleware) {
@@ -49,9 +46,7 @@ class App extends \Slim\Slim {
 	}
 
 	private function prepareRun(Middleware $middleware, $data) {
-		$paginationObj = ($middleware->pagination() !== null)
-			? $this->repository->page(null, $middleware->pagination())
-			: null;
+		$paginationObj = $middleware->pagination();
 
 		$this->buildMainPage($middleware);
 

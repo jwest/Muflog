@@ -41,7 +41,9 @@ abstract class Module extends \Slim\Middleware {
     }
 
     public function pagination() {
-    	return $this->pagination;
+        return $this->pagination !== null
+            ? $this->repository->page(null, $this->pagination)
+            : null;
     }
 
     public function data() {
