@@ -41,14 +41,17 @@ class App extends \Slim\Slim {
 	}
 
 	private function buildMainPage($middleware) {
+		$this->callbackStart();
 		$this->prepareEnv($middleware, $middleware->routeIndex());
 		$this->runRoute($middleware->routeIndex().'index.html');
+		$this->callbackEnd($middleware->routeIndex().'index.html');
 	}
 
 	private function prepareRun(Middleware $middleware, $data) {
 		$paginationObj = $middleware->pagination();
 
-		$this->buildMainPage($middleware);
+		if ($middleware->routeIndex() === '/')
+			$this->buildMainPage($middleware);
 
 		while (true) {
 			$this->callbackStart();
@@ -93,8 +96,11 @@ class App extends \Slim\Slim {
 
 	private function generateIndex() {
 		foreach ($this->output->keys() as $key) {
-			if (substr($key, -strlen('/1')) == '/1')
+			if (substr($key, -strlen('/1')) == '/1') {
+				$this->callbackStart();
 				$this->output->write(dirname($key).'/index.html', $this->output->read($key), true);
+				$this->callbackEnd(dirname($key).'/index.html');
+			}
 		}
 		try {
 			$this->output->write('index.html', $this->output->read(1), true);

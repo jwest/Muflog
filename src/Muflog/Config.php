@@ -10,13 +10,14 @@ class Config {
 
 	protected $config = array();
 
-	public function __construct(Filesystem $fs) {
-		$this->config = $this->loadConfigFile($fs);
+	public function __construct($configFile) {
+		$this->config = $this->loadConfigFile($configFile);
 	}
 
-	protected function loadConfigFile(Filesystem $fs) {
-		$configContent = $fs->read('config.ini');
-		return parse_ini_string($configContent, true);
+	protected function loadConfigFile($configFile) {
+		if (!file_exists($configFile))
+			throw new \InvalidArgumentException('Config file '.$configFile.' not exists');
+		return parse_ini_file($configFile, true);
 	}
 
 	public function main($name) {

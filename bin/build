@@ -9,7 +9,7 @@ use Muflog\Config;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
-$config = new Config(new FileSystem(new LocalAdapter('tests/fixtures/main')));
+$config = new Config('config.ini');
 \Muflog\Pagination::itemsOnPage(3);
 
 $time = new Timer();

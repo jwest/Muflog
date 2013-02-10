@@ -7,7 +7,7 @@ use Gaufrette\Adapter\Local as LocalAdapter;
 class Muflog_Config_Test extends PHPUnit_Framework_TestCase {
 
 	public function setUp() {
-		$this->fs = new Filesystem(new LocalAdapter('tests/fixtures/main'));
+		$this->fs = 'tests/fixtures/main/config.ini';
 	}
 
 	public function testCreateInstance() {
@@ -15,9 +15,8 @@ class Muflog_Config_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testCreateInvalidInstance() {
-		$this->setExpectedException('Gaufrette\Exception\FileNotFound', 'The file "config.ini" was not found.');
-		$fs = new Filesystem(new LocalAdapter('tests/fixtures/'));
-		new Config($fs);
+		$this->setExpectedException('\InvalidArgumentException', 'Config file notExists not exists');
+		new Config('notExists');
 	}
 
 	public function testGetRepositoryInstance() {
