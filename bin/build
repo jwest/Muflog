@@ -9,6 +9,7 @@ use Muflog\Config;
 use Gaufrette\Filesystem;
 use Gaufrette\Adapter\Local as LocalAdapter;
 
+Logger::log('Start generate blog...');
 $config = new Config('config.ini');
 \Muflog\Pagination::itemsOnPage(3);
 
