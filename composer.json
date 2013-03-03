@@ -11,7 +11,8 @@
         "slim/slim": "2.2.0",
         "knplabs/gaufrette": "0.2.*@dev",
         "dflydev/markdown": "1.0.*@dev",
-        "fusepump/cli.php": "dev-master"
+        "fusepump/cli.php": "dev-master",
+        "suin/php-rss-writer": "dev-master"
     },
     "authors": [
         {

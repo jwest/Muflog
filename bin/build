@@ -26,6 +26,8 @@ $endCb = function($route) use ($time) {
 };
 
 $app = new App(new Filesystem(new LocalAdapter('web')));
+$app->config('blog.title', $config->main('title'));
+$app->config('blog.description', $config->main('description'));
 $app->config('absoluteUrl', $config->main('absoluteUrl'));
 $app->config('templates.path', $config->main('templates'));
 
