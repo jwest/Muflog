@@ -38,16 +38,16 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\Post($this->repo));
 		$obj->build();		
-		$this->assertTrue($this->out->has('post/test_post'));
-		$this->assertTrue($this->out->has('post/test_post_2'));
+		$this->assertTrue($this->out->has('post/test_post/index.html'));
+		$this->assertTrue($this->out->has('post/test_post_2/index.html'));
 	}
 
 	public function testBuildListingModule() {
 		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\Listing($this->repo));
 		$obj->build();
-		$this->assertTrue($this->out->has('1'));
-		$this->assertTrue($this->out->has('2'));
+		$this->assertTrue($this->out->has('1/index.html'));
+		$this->assertTrue($this->out->has('2/index.html'));
 	}
 
 	public function testBuildListingByTagModule() {
@@ -55,8 +55,8 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\ListingByTag($this->repo));
 		$obj->build();
-		$this->assertTrue($this->out->has('tag/testTag/1'));
-		$this->assertTrue($this->out->has('tag/testTag/2'));
+		$this->assertTrue($this->out->has('tag/testTag/1/index.html'));
+		$this->assertTrue($this->out->has('tag/testTag/2/index.html'));
 	}
 
 	public function testBuildListingByDateModule() {
@@ -64,8 +64,8 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 		$obj = $this->getObj();
 		$obj->addModule(new \Muflog\Module\ListingByDate($this->repo));
 		$obj->build();
-		$this->assertTrue($this->out->has('2013/01'));
-		$this->assertTrue($this->out->has('2013/03'));
+		$this->assertTrue($this->out->has('2013/01/index.html'));
+		$this->assertTrue($this->out->has('2013/03/index.html'));
 	}
 
 	public function testBuildListingByDateModuleIndexCheck() {
@@ -104,6 +104,7 @@ class Muflog_Builder_App_Test extends PHPUnit_Framework_TestCase {
 		$test = $this;
 		$obj->build(null, function($route) use ($test) {
 			$test->assertContains('/post/test_post', $route);
+			$test->assertContains('index.html', $route);
 		});		
 	}
 

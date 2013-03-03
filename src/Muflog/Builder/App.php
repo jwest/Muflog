@@ -43,7 +43,7 @@ class App extends \Slim\Slim {
 	private function buildMainPage($middleware) {
 		$this->callbackStart();
 		$this->prepareEnv($middleware, $middleware->routeIndex());
-		$this->runRoute($middleware->routeIndex().'index.html');
+		$this->runRoute($middleware->routeIndex());
 		$this->callbackEnd($middleware->routeIndex().'index.html');
 	}
 
@@ -59,7 +59,7 @@ class App extends \Slim\Slim {
 			$route = $this->prepareRoute($middleware->routeScheme(), $data, $paginationObj);
 			$this->prepareEnv($middleware, $route);
 
-			$this->callbackEnd($route);
+			$this->callbackEnd($route.'/index.html');
 
 			if (!$this->runRoute($route) || $paginationObj == null || !$paginationObj->page())
 				return;
@@ -92,20 +92,23 @@ class App extends \Slim\Slim {
 		$content = ob_get_clean();		
 		if ($this->response()->status() !== 200)
 			return false;
-		$this->output->write(trim($route, '/'), $content, true);
+
+		$this->output->write(trim($route.'/index.html', '/'), $content, true);
 		return true;
 	}
 
 	private function generateIndex() {
 		foreach ($this->output->keys() as $key) {
-			if (substr($key, -strlen('/1')) == '/1') {
+			if (substr($key, -strlen('/1/index.html')) == '/1/index.html') {
 				$this->callbackStart();
-				$this->output->write(dirname($key).'/index.html', $this->output->read($key), true);
-				$this->callbackEnd(dirname($key).'/index.html');
+				$content = $this->output->read($key);
+				$key = substr($key, 0, -strlen('/1/index.html'));
+				$this->output->write($key.'/index.html', $content, true);
+				$this->callbackEnd($key.'/index.html');
 			}
 		}
-		try {
-			$this->output->write('index.html', $this->output->read(1), true);
+		try {			
+			$this->output->write('index.html', $this->output->read('1/index.html'), true);
 		} catch (\Gaufrette\Exception\FileNotFound $e) {}
 	}	
 

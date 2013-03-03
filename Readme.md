@@ -34,4 +34,6 @@ Get application from repository and run tests
 	cd Muflog
 	phpunit
 
+Use web/index.php only for development!
+
  [postExample]: https://github.com/jwest/Muflog/blob/master/tests/fixtures/repository/posts/test_post.md
